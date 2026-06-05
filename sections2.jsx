@@ -49,9 +49,9 @@ function Venue() {
         <div className="venue-grid">
           <Rv variant="left">
             <div className="venue-photos" ref={photos}>
-              <Img className="wide" src="images/venue/hall-main.jpg" label="зал · общий вид" />
-              <Img src="images/venue/hall-ceiling.jpg" label="лепнина · потолок" />
-              <Img src="images/venue/hall-piano.jpg" label="рояль · зеркала" />
+              <Img className="wide" src="images/venue/hall-main.webp" label="зал · общий вид" />
+              <Img src="images/venue/hall-celing.webp" label="лепнина · потолок" />
+              <Img src="images/venue/hall-piano.webp" label="рояль · зеркала" />
             </div>
           </Rv>
           <Rv variant="right" delay={100}>
