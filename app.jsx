@@ -4,8 +4,8 @@
 const { LaurelSeal } = window;
 const { useState: aS, useEffect: aE } = React;
 
-/* ---------- Intro: classic envelope — top flap + wax seal (lovellink-style) ----------
-   Layers: back → card → front pocket → top flap + seal.                    */
+/* ---------- Intro: full-screen envelope back (lovellink reference) ----------
+   z-order: cavity → body+hint → flap → grain → seal.                        */
 function Intro({ onOpen }) {
   const [phase, setPhase] = aS("idle");
 
@@ -18,33 +18,32 @@ function Intro({ onOpen }) {
 
   return (
     <div className={`intro ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
-      <div className="env-stage">
-        <div className="env">
-          <div className="env__back" aria-hidden="true" />
-
-          <div className="env__cavity" aria-hidden="true">
-            <div className="env__card">
-              <div className="letter-inner">
-                <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
-                <span className="lt-corner bl"></span><span className="lt-corner br"></span>
-                <p className="lt-kicker">Приглашение на свадьбу</p>
-                <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
-                <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
-                <p className="lt-date">11 октября 2026 · Москва</p>
-              </div>
+      <div className="env">
+        <div className="env__cavity" aria-hidden="true">
+          <div className="env__card">
+            <div className="letter-inner">
+              <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
+              <span className="lt-corner bl"></span><span className="lt-corner br"></span>
+              <p className="lt-kicker">Приглашение на свадьбу</p>
+              <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
+              <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
+              <p className="lt-date">11 октября 2026 · Москва</p>
             </div>
           </div>
-
-          <div className="env__front" aria-hidden="true" />
-          <div className="env__flap">
-            <span className="env__flap-label" aria-hidden="true">нажмите на печать</span>
-            <button className="env__seal" onClick={open} aria-label="Открыть приглашение">
-              <LaurelSeal />
-            </button>
-          </div>
         </div>
+
+        <div className="env__body">
+          <span className="env__hint">нажмите на печать</span>
+        </div>
+
+        <div className="env__flap" aria-hidden="true" />
+
+        <div className="env__grain" aria-hidden="true" />
+
+        <button className="env__seal" onClick={open} aria-label="Открыть приглашение">
+          <LaurelSeal />
+        </button>
       </div>
-      <div className="env-paper-grain" aria-hidden="true" />
     </div>
   );
 }

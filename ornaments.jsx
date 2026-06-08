@@ -127,21 +127,22 @@ const WAX_SHAPE = waxBlob(46, 3.2);
 
 function LaurelSeal({ className = "" }) {
   const leaves = [
-    { x: 5, y: 32, r: -82 }, { x: 14, y: 22, r: -64 }, { x: 22, y: 8, r: -46 },
-    { x: 28, y: -8, r: -28 }, { x: 26, y: -22, r: -10 }, { x: 18, y: -32, r: 8 },
+    { x: 4, y: 30, r: -84 }, { x: 13, y: 20, r: -66 }, { x: 21, y: 6, r: -48 },
+    { x: 27, y: -10, r: -30 }, { x: 26, y: -24, r: -12 }, { x: 19, y: -34, r: 6 },
+    { x: 8, y: -38, r: 18 },
   ];
   const Branch = () => (
-    <g fill="none" strokeWidth="1.4" strokeLinecap="round">
-      <path d="M0 36 C 16 28, 28 8, 22 -34" stroke="currentColor" />
+    <g fill="none" strokeWidth="1.35" strokeLinecap="round">
+      <path d="M0 34 C 14 26, 26 6, 20 -36" stroke="currentColor" />
       {leaves.map((l, i) => (
         <g key={i} transform={`translate(${l.x} ${l.y}) rotate(${l.r})`}>
-          <path d="M0 0 C 9 -2 14 -9 12 -18 C 5 -14 1 -8 0 0 Z" fill="currentColor" stroke="none" />
+          <path d="M0 0 C 8 -2 13 -8 11 -17 C 5 -14 1 -8 0 0 Z" fill="currentColor" stroke="none" />
         </g>
       ))}
     </g>
   );
   const Wreath = () => (
-    <g transform="translate(0 2)">
+    <g transform="scale(1.05)">
       <Branch />
       <g transform="scale(-1,1)"><Branch /></g>
     </g>
@@ -149,49 +150,47 @@ function LaurelSeal({ className = "" }) {
   return (
     <svg className={`laurel-seal ${className}`} viewBox="-62 -62 124 124" aria-hidden="true">
       <defs>
-        <radialGradient id="waxChampagne" cx="36%" cy="28%" r="80%">
-          <stop offset="0%" stopColor="#f5efe2" />
-          <stop offset="25%" stopColor="#e8dcc8" />
-          <stop offset="55%" stopColor="#d4c4a8" />
-          <stop offset="80%" stopColor="#c4ad82" />
-          <stop offset="100%" stopColor="#a8926a" />
+        <radialGradient id="waxChampagne" cx="34%" cy="26%" r="82%">
+          <stop offset="0%" stopColor="#faf6ee" />
+          <stop offset="22%" stopColor="#ede4d0" />
+          <stop offset="50%" stopColor="#d9c9a8" />
+          <stop offset="78%" stopColor="#c4ad82" />
+          <stop offset="100%" stopColor="#a08c68" />
         </radialGradient>
-        <radialGradient id="waxBasin" cx="48%" cy="42%" r="58%">
-          <stop offset="0%" stopColor="#ddd0b8" />
-          <stop offset="70%" stopColor="#c9b896" />
-          <stop offset="100%" stopColor="#b8a07a" />
+        <radialGradient id="waxBasin" cx="46%" cy="40%" r="56%">
+          <stop offset="0%" stopColor="#e4d6bc" />
+          <stop offset="65%" stopColor="#cbb896" />
+          <stop offset="100%" stopColor="#b5a080" />
         </radialGradient>
-        <radialGradient id="waxSheen" cx="32%" cy="24%" r="40%">
-          <stop offset="0%" stopColor="#fffaf2" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#fffaf2" stopOpacity="0" />
+        <radialGradient id="waxSheen" cx="30%" cy="22%" r="38%">
+          <stop offset="0%" stopColor="#fffcf5" stopOpacity="0.98" />
+          <stop offset="100%" stopColor="#fffcf5" stopOpacity="0" />
         </radialGradient>
         <filter id="waxDrop" x="-40%" y="-40%" width="180%" height="180%">
-          <feDropShadow dx="0" dy="2.2" stdDeviation="2.4" floodColor="#8a7558" floodOpacity="0.45" />
+          <feDropShadow dx="0" dy="2.4" stdDeviation="2.2" floodColor="#7a6848" floodOpacity="0.42" />
         </filter>
         <filter id="waxGrain" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" result="n" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.58" numOctaves="2" result="n" />
           <feColorMatrix in="n" type="saturate" values="0" />
-          <feComponentTransfer><feFuncA type="linear" slope="0.14" /></feComponentTransfer>
+          <feComponentTransfer><feFuncA type="linear" slope="0.12" /></feComponentTransfer>
           <feComposite operator="in" in2="SourceGraphic" />
         </filter>
         <clipPath id="waxClip"><path d={WAX_SHAPE} /></clipPath>
       </defs>
 
-      <ellipse cx="-12" cy="44" rx="5" ry="7" fill="url(#waxChampagne)" filter="url(#waxDrop)" opacity="0.9" />
-      <ellipse cx="18" cy="43" rx="4" ry="5.5" fill="url(#waxChampagne)" filter="url(#waxDrop)" opacity="0.85" />
-
       <path d={WAX_SHAPE} fill="url(#waxChampagne)" filter="url(#waxDrop)" />
-      <path d={WAX_SHAPE} fill="none" stroke="#b8a07a" strokeWidth="1.3" opacity="0.4" />
+      <path d={WAX_SHAPE} fill="none" stroke="#b5a080" strokeWidth="1.2" opacity="0.38" />
 
-      <circle r="36" fill="url(#waxBasin)" />
-      <circle r="36" fill="none" stroke="#a8926a" strokeWidth="1" opacity="0.35" />
+      <circle r="35" fill="url(#waxBasin)" />
+      <circle r="35" fill="none" stroke="#a08c68" strokeWidth="0.9" opacity="0.32" />
 
-      <g className="seal-wreath-hi" style={{ transform: "translate(0.6px, 0.8px)" }}><Wreath /></g>
-      <g className="seal-wreath" style={{ transform: "translate(-0.4px, -0.5px)" }}><Wreath /></g>
+      <g className="seal-wreath-dark" style={{ transform: "translate(1px, 1.2px)" }}><Wreath /></g>
+      <g className="seal-wreath-hi" style={{ transform: "translate(-0.5px, -0.7px)" }}><Wreath /></g>
+      <g className="seal-wreath"><Wreath /></g>
 
       <g clipPath="url(#waxClip)">
-        <rect x="-62" y="-62" width="124" height="124" fill="#8a7558" filter="url(#waxGrain)" style={{ mixBlendMode: "multiply" }} />
-        <ellipse cx="-10" cy="-12" rx="22" ry="16" fill="url(#waxSheen)" />
+        <rect x="-62" y="-62" width="124" height="124" fill="#7a6848" filter="url(#waxGrain)" style={{ mixBlendMode: "multiply" }} />
+        <ellipse cx="-11" cy="-13" rx="21" ry="15" fill="url(#waxSheen)" />
       </g>
     </svg>
   );
@@ -373,74 +372,140 @@ function ClosingScene({ className = "" }) {
 }
 
 /* ---------------------------------------------------------------
-   TIMELINE ICONS — expressive engraving markers for program day
+   TIMELINE ICONS — luxe engraving markers for program day
    --------------------------------------------------------------- */
 function TimelineRings({ className = "" }) {
   return (
-    <svg className={`tl-icon ${className}`} viewBox="0 0 48 48"
-      fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <ellipse cx="17" cy="27" rx="12" ry="12" transform="rotate(-22 17 27)" />
-      <ellipse cx="31" cy="25" rx="12" ry="12" transform="rotate(26 31 25)" />
-      <path d="M14 19 L10 10 M34 17 L38 8" strokeWidth="1.3" />
-      <circle cx="9" cy="9" r="1.6" fill="currentColor" stroke="none" />
-      <circle cx="39" cy="7" r="1.6" fill="currentColor" stroke="none" />
-      <path d="M22 8 C24 6 28 6 30 8" strokeWidth="1" opacity="0.45" />
-      <path d="M24 36 C24 39 24 41 24 43" strokeWidth="1.1" opacity="0.4" />
+    <svg className={`tl-icon ${className}`} viewBox="0 0 56 56"
+      fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* ribbon bow crown */}
+      <path d="M28 6 C 22 2 14 2 12 8 C 10 12 18 14 28 12" />
+      <path d="M28 6 C 34 2 42 2 44 8 C 46 12 38 14 28 12" />
+      <path d="M24 10 q4 -3 8 0 q2 3 0 6 q-4 3 -8 0 q-2 -3 0 -6 Z" strokeWidth="0.95" />
+      <path d="M26 16 C 24 20 22 23 20 26 M30 16 C 32 20 34 23 36 26" strokeWidth="0.75" opacity="0.55" />
+      {/* interlocked bands */}
+      <ellipse cx="20" cy="30" rx="13" ry="13" transform="rotate(-24 20 30)" />
+      <ellipse cx="36" cy="28" rx="13" ry="13" transform="rotate(28 36 28)" />
+      <ellipse cx="20" cy="30" rx="10" ry="10" transform="rotate(-24 20 30)" strokeWidth="0.65" opacity="0.45" />
+      <ellipse cx="36" cy="28" rx="10" ry="10" transform="rotate(28 36 28)" strokeWidth="0.65" opacity="0.45" />
+      {/* band engraving */}
+      <path d="M12 28 C 14 24 18 22 22 23" strokeWidth="0.6" opacity="0.5" transform="rotate(-24 20 30)" />
+      <path d="M28 22 C 32 21 36 23 38 27" strokeWidth="0.6" opacity="0.5" transform="rotate(28 36 28)" />
+      {/* solitaire + prongs */}
+      <path d="M28 14 L28 18 M25 16 L31 16" strokeWidth="0.85" />
+      <path d="M28 12 L26 16 L28 18 L30 16 Z" fill="currentColor" stroke="none" />
+      <circle cx="28" cy="11" r="1.1" fill="currentColor" stroke="none" />
+      {/* pearls */}
+      <circle cx="10" cy="18" r="1.2" fill="currentColor" stroke="none" opacity="0.85" />
+      <circle cx="46" cy="16" r="1.1" fill="currentColor" stroke="none" opacity="0.75" />
+      <circle cx="8" cy="24" r="0.7" fill="currentColor" stroke="none" opacity="0.45" />
+      {/* lower flourish */}
+      <path d="M18 44 C 22 48 28 49 34 47 C 38 45 40 42 38 40" strokeWidth="0.8" opacity="0.55" />
+      <path d="M22 46 C 24 44 26 44 28 45 C 30 46 32 45 34 44" strokeWidth="0.65" opacity="0.4" />
     </svg>
   );
 }
 
 function TimelineGlasses({ className = "" }) {
   return (
-    <svg className={`tl-icon ${className}`} viewBox="0 0 48 48"
-      fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M8 20 C8 30 12 33 16 33 C20 33 24 30 24 20 C24 17 8 17 8 20 Z" />
-      <path d="M16 33 L16 38 L12 40 L20 40 L16 38" />
-      <path d="M24 20 C24 30 28 33 32 33 C36 33 40 30 40 20 C40 17 24 17 24 20 Z" />
-      <path d="M32 33 L32 38 L28 40 L36 40 L32 38" />
-      <path d="M22 14 L24 8 L26 14" strokeWidth="1.3" />
-      <circle cx="24" cy="6" r="1.4" fill="currentColor" stroke="none" />
-      <circle cx="20" cy="12" r="1" fill="currentColor" stroke="none" opacity="0.55" />
-      <circle cx="28" cy="11" r="0.9" fill="currentColor" stroke="none" opacity="0.45" />
-      <path d="M14 10 C16 7 20 6 24 6 C28 6 32 7 34 10" strokeWidth="1.1" opacity="0.5" />
+    <svg className={`tl-icon ${className}`} viewBox="0 0 56 56"
+      fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* champagne bubbles */}
+      <circle cx="18" cy="10" r="0.9" fill="currentColor" stroke="none" opacity="0.55" />
+      <circle cx="24" cy="6" r="1.1" fill="currentColor" stroke="none" opacity="0.7" />
+      <circle cx="32" cy="8" r="0.8" fill="currentColor" stroke="none" opacity="0.5" />
+      <circle cx="38" cy="12" r="0.65" fill="currentColor" stroke="none" opacity="0.4" />
+      <circle cx="28" cy="14" r="0.55" fill="currentColor" stroke="none" opacity="0.35" />
+      {/* left flute */}
+      <path d="M10 22 C10 34 14 38 19 38 C24 38 28 34 28 22 C28 18 10 18 10 22 Z" />
+      <path d="M14 24 C16 30 18 33 19 33" strokeWidth="0.65" opacity="0.45" />
+      <path d="M19 38 L19 44 L14 46 L24 46 L19 44" />
+      <path d="M19 44 L19 50" strokeWidth="0.9" />
+      <ellipse cx="19" cy="51" rx="3.5" ry="1.2" strokeWidth="0.75" opacity="0.55" />
+      {/* right flute */}
+      <path d="M28 22 C28 34 32 38 37 38 C42 38 46 34 46 22 C46 18 28 18 28 22 Z" />
+      <path d="M32 24 C34 30 36 33 37 33" strokeWidth="0.65" opacity="0.45" />
+      <path d="M37 38 L37 44 L32 46 L42 46 L37 44" />
+      <path d="M37 44 L37 50" strokeWidth="0.9" />
+      <ellipse cx="37" cy="51" rx="3.5" ry="1.2" strokeWidth="0.75" opacity="0.55" />
+      {/* toast clink + sparkle */}
+      <path d="M26 20 L30 16" strokeWidth="1.2" />
+      <path d="M30 14 L33 11 M30 16 L34 14" strokeWidth="0.75" opacity="0.6" />
+      {/* ribbon tie at stems */}
+      <path d="M22 48 C 26 46 30 46 34 48" strokeWidth="0.85" />
+      <path d="M24 48 C 23 50 23 52 24 53 M32 48 C 33 50 33 52 32 53" strokeWidth="0.7" opacity="0.55" />
+      {/* base flourish */}
+      <path d="M14 53 C 20 55 28 55 36 53 C 42 51 44 48 42 46" strokeWidth="0.75" opacity="0.45" />
     </svg>
   );
 }
 
 function TimelinePiano({ className = "" }) {
-  const keys = [10, 14, 18, 22, 26, 30, 34, 38];
+  const whites = [8, 12, 16, 20, 24, 28, 32, 36, 40, 44];
+  const blacks = [14, 22, 30, 38];
   return (
-    <svg className={`tl-icon ${className}`} viewBox="0 0 48 48"
-      fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M6 16 L42 16 L40 36 C36 38 12 38 8 36 Z" />
-      <path d="M6 16 C8 12 14 10 24 10 C34 10 40 12 42 16" />
-      {keys.map((x) => <path key={x} d={`M${x} 16 L${x} 34`} strokeWidth="1" opacity="0.45" />)}
-      <rect x="12" y="16" width="4" height="12" fill="currentColor" stroke="none" />
-      <rect x="20" y="16" width="4" height="12" fill="currentColor" stroke="none" />
-      <rect x="28" y="16" width="4" height="12" fill="currentColor" stroke="none" />
-      <rect x="36" y="16" width="4" height="12" fill="currentColor" stroke="none" />
-      <path d="M10 40 C18 42 30 42 38 40" strokeWidth="1.1" opacity="0.55" />
-      <path d="M34 8 L38 5 M38 10 L42 7" strokeWidth="1.2" opacity="0.65" />
-      <ellipse cx="38" cy="6" rx="2.5" ry="2" strokeWidth="1.1" />
+    <svg className={`tl-icon ${className}`} viewBox="0 0 56 56"
+      fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* open lid */}
+      <path d="M6 22 L50 22 L48 38 C 42 41 14 41 8 38 Z" />
+      <path d="M6 22 C 10 16 18 13 28 13 C 38 13 46 16 50 22" />
+      <path d="M8 18 L48 18" strokeWidth="0.7" opacity="0.45" />
+      {/* lid prop + music stand hint */}
+      <path d="M44 16 L48 10 L52 12" strokeWidth="0.85" opacity="0.65" />
+      <path d="M46 8 C 48 6 50 6 52 8" strokeWidth="0.7" opacity="0.5" />
+      {/* white keys */}
+      {whites.map((x) => <path key={"w" + x} d={`M${x} 22 L${x} 37`} strokeWidth="0.65" opacity="0.4" />)}
+      {blacks.map((x) => <rect key={"b" + x} x={x - 1.5} y="22" width="3" height="10" fill="currentColor" stroke="none" />)}
+      {/* fallboard curve */}
+      <path d="M10 38 C 18 40 28 40 38 38" strokeWidth="0.75" opacity="0.5" />
+      {/* lyre pedal assembly */}
+      <path d="M22 41 C 24 44 26 46 28 46 C 30 46 32 44 34 41" strokeWidth="0.85" />
+      <path d="M28 46 L28 50" strokeWidth="0.9" />
+      <ellipse cx="28" cy="51" rx="4" ry="1.4" strokeWidth="0.75" opacity="0.55" />
+      {/* legs */}
+      <path d="M12 41 L10 48 M44 41 L46 48" strokeWidth="0.85" opacity="0.6" />
+      {/* floating notes */}
+      <g strokeWidth="0.85" opacity="0.7">
+        <ellipse cx="46" cy="8" rx="2.2" ry="1.6" fill="currentColor" stroke="none" />
+        <path d="M48 8 L48 14" />
+        <path d="M48 14 C 50 15 52 14 52 12" />
+      </g>
+      <g strokeWidth="0.75" opacity="0.55">
+        <ellipse cx="40" cy="5" rx="1.6" ry="1.2" fill="currentColor" stroke="none" />
+        <path d="M42 5 L42 10" />
+      </g>
+      {/* side scroll ornament */}
+      <path d="M6 28 C 4 30 3 33 4 35" strokeWidth="0.65" opacity="0.45" />
     </svg>
   );
 }
 
 function TimelineMoon({ className = "" }) {
   return (
-    <svg className={`tl-icon ${className}`} viewBox="0 0 48 48"
-      fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M32 10 C24 10 18 16 18 25 C18 34 24 40 32 40 C28 37 25 32 25 25 C25 18 28 13 32 10 Z"
-        fill="currentColor" stroke="none" opacity="0.12" />
-      <path d="M32 10 C24 10 18 16 18 25 C18 34 24 40 32 40 C28 37 25 32 25 25 C25 18 28 13 32 10 Z" />
-      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" opacity="0.5" />
-      <circle cx="16" cy="8" r="0.8" fill="currentColor" stroke="none" opacity="0.4" />
-      <circle cx="8" cy="18" r="0.7" fill="currentColor" stroke="none" opacity="0.35" />
-      <path className="ch-flame" style={{ transformOrigin: "12px 30px" }}
-        d="M12 24 C15 19 15 14 12 11 C9 14 9 19 12 24 Z" fill="currentColor" stroke="none" />
-      <path d="M12 24 L12 29" />
-      <path d="M8 30 L16 30 L16 40 L8 40 Z" />
-      <path d="M8 33 L16 33" strokeWidth="1" opacity="0.45" />
+    <svg className={`tl-icon ${className}`} viewBox="0 0 56 56"
+      fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* crescent moon */}
+      <path d="M38 10 C 28 10 20 18 20 28 C20 38 28 46 38 46 C 32 42 28 36 28 28 C28 20 32 14 38 10 Z"
+        fill="currentColor" stroke="none" opacity="0.1" />
+      <path d="M38 10 C 28 10 20 18 20 28 C20 38 28 46 38 46 C 32 42 28 36 28 28 C28 20 32 14 38 10 Z" />
+      <path d="M32 14 C 30 18 29 23 29 28 C29 33 30 38 32 42" strokeWidth="0.65" opacity="0.4" />
+      {/* stars */}
+      <path d="M12 10 L12 14 M10 12 L14 12" strokeWidth="0.75" opacity="0.55" />
+      <circle cx="16" cy="6" r="0.9" fill="currentColor" stroke="none" opacity="0.5" />
+      <circle cx="8" cy="18" r="0.65" fill="currentColor" stroke="none" opacity="0.35" />
+      <circle cx="14" cy="22" r="0.5" fill="currentColor" stroke="none" opacity="0.3" />
+      {/* ornate candle */}
+      <path className="ch-flame" style={{ transformOrigin: "14px 36px" }}
+        d="M14 28 C17 23 17 18 14 14 C11 18 11 23 14 28 Z" fill="currentColor" stroke="none" />
+      <path d="M14 28 L14 34" strokeWidth="0.9" />
+      <path d="M10 34 L18 34 L17 48 L11 48 Z" />
+      <path d="M10 37 L18 37 M10 41 L18 41 M10 45 L18 45" strokeWidth="0.6" opacity="0.45" />
+      {/* candle holder base */}
+      <path d="M8 48 C 10 50 12 51 14 51 C16 51 18 50 20 48" strokeWidth="0.8" opacity="0.55" />
+      <ellipse cx="14" cy="51" rx="5" ry="1.5" strokeWidth="0.75" opacity="0.45" />
+      {/* night curtain flourish */}
+      <path d="M24 50 C 28 52 34 52 40 50 C 44 48 46 44 44 42" strokeWidth="0.75" opacity="0.45" />
+      <path d="M26 51 C 28 49 30 49 32 50 C34 51 36 50 38 49" strokeWidth="0.6" opacity="0.35" />
     </svg>
   );
 }
