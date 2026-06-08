@@ -282,20 +282,6 @@ h1,h2,h3 { font-family: var(--serif); font-weight: 500; margin: 0; line-height: 
   background: #eae9e5;
   pointer-events: none;
 }
-/* crease shadow along flap fold line */
-.env__body::before {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    34.5deg,
-    transparent 38.6%,
-    rgba(55,50,42,.06) 39.2%,
-    rgba(55,50,42,.11) 39.8%,
-    rgba(55,50,42,.06) 40.4%,
-    transparent 41%
-  );
-  pointer-events: none;
-}
 .env__hint {
   position: absolute;
   left: 9%;
@@ -323,46 +309,44 @@ h1,h2,h3 { font-family: var(--serif); font-weight: 500; margin: 0; line-height: 
   will-change: transform;
   background: #efeeea;
   clip-path: polygon(0 0, 100% 0, 56% 39%);
-  filter: drop-shadow(0 5px 6px rgba(55,50,42,.08));
 }
-.env__flap::before {
-  content: "";
+
+/* crisp fold lines */
+.env__lines {
   position: absolute; inset: 0;
-  clip-path: polygon(0 0, 100% 0, 56% 39%);
-  background: linear-gradient(
-    34.5deg,
-    transparent 38.5%,
-    rgba(55,50,42,.05) 39.5%,
-    transparent 40.5%
-  );
+  z-index: 4;
+  width: 100%; height: 100%;
   pointer-events: none;
 }
-.env__flap::after {
-  content: "";
-  position: absolute; inset: 0;
-  clip-path: polygon(0 0, 100% 0, 56% 39%);
-  background: linear-gradient(168deg, rgba(255,255,255,.4) 0%, transparent 42%);
-  pointer-events: none;
+.env__line {
+  stroke: rgba(68, 64, 58, 0.34);
+  stroke-width: 0.55;
+  vector-effect: non-scaling-stroke;
+  shape-rendering: crispEdges;
+}
+.env__line--right {
+  stroke: rgba(68, 64, 58, 0.16);
+  stroke-width: 0.4;
 }
 
 /* 4 — wax seal (topmost, clickable) */
 .env__seal {
   position: absolute;
   left: 56%; top: 39%;
-  width: clamp(92px, 25vw, 152px);
+  width: clamp(84px, 22vw, 128px);
   aspect-ratio: 1;
-  z-index: 4;
+  z-index: 5;
   margin: 0; padding: 0;
   border: none; background: none;
   cursor: pointer;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(1px 6px 10px rgba(90,78,58,.38)) drop-shadow(0 2px 3px rgba(90,78,58,.22));
+  filter: drop-shadow(0 4px 8px rgba(90,78,58,.28));
   animation: sealBreath 4.4s var(--ease) infinite;
 }
 .env__seal .laurel-seal { width: 100%; height: 100%; display: block; }
 @keyframes sealBreath {
-  0%,100% { filter: drop-shadow(1px 6px 10px rgba(90,78,58,.34)) drop-shadow(0 2px 3px rgba(90,78,58,.18)); }
-  50%     { filter: drop-shadow(2px 9px 14px rgba(90,78,58,.48)) drop-shadow(0 3px 5px rgba(90,78,58,.26)); }
+  0%,100% { filter: drop-shadow(0 4px 8px rgba(90,78,58,.26)); }
+  50%     { filter: drop-shadow(0 6px 12px rgba(90,78,58,.36)); }
 }
 .intro .env__seal:hover { animation-play-state: paused; }
 .intro.opening .env__hint { opacity: 0; transition: opacity .3s var(--ease); }
@@ -422,9 +406,8 @@ h1,h2,h3 { font-family: var(--serif); font-weight: 500; margin: 0; line-height: 
 }
 
 .laurel-seal { overflow: visible; }
-.laurel-seal .seal-wreath { color: #8a7558; }
-.laurel-seal .seal-wreath-hi { color: #e8dcc8; opacity: .5; }
-.laurel-seal .seal-wreath-dark { color: #6e5e42; opacity: .75; }
+.laurel-seal .seal-wreath { color: #7a6a50; }
+.laurel-seal .seal-wreath-hi { color: #f5efe0; opacity: .55; }
 
 /* 3 — cold-press paper grain (over body + flap, under seal) */
 .env__grain {

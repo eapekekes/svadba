@@ -38,6 +38,11 @@ function Intro({ onOpen }) {
 
         <div className="env__flap" aria-hidden="true" />
 
+        <svg className="env__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line className="env__line" x1="0" y1="0" x2="56" y2="39" />
+          <line className="env__line env__line--right" x1="100" y1="0" x2="56" y2="39" />
+        </svg>
+
         <div className="env__grain" aria-hidden="true" />
 
         <button className="env__seal" onClick={open} aria-label="Открыть приглашение">
