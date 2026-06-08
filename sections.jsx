@@ -3,7 +3,7 @@
    ============================================================ */
 const { Reveal, Ornament, SecHead, Placeholder, Photo, useCountdown } = window;
 const { useState: useS, useEffect: useE, useRef: useR } = React;
-const { Dove, RibbonBow, BotanicalCorner, Dandelion, Fleuron } = window;
+const { Dove, RibbonBow, BotanicalCorner, Dandelion, Fleuron, TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon } = window;
 
 /* ============================================================
    HERO
@@ -154,10 +154,10 @@ function Story() {
    PROGRAM timeline
    ============================================================ */
 const PROGRAM = [
-  { time: "13:30", title: "Заключение брака", desc: "Грибоедовский ЗАГС №1 · Малый Харитоньевский пер., 10" },
-  { time: "14:30", title: "Сбор гостей и фуршет", desc: "Welcome-напитки в усадьбе на Новой Басманной" },
-  { time: "15:00", title: "Банкет", desc: "Праздничный ужин под живой рояль" },
-  { time: "22:00", title: "Завершение вечера", desc: "Провожаем этот тёплый день вместе" },
+  { time: "13:30", title: "Заключение брака", desc: "Грибоедовский ЗАГС №1 · Малый Харитоньевский пер., 10", Accent: TimelineRings },
+  { time: "14:30", title: "Сбор гостей и фуршет", desc: "Welcome-напитки в усадьбе на Новой Басманной", Accent: TimelineGlasses },
+  { time: "15:00", title: "Банкет", desc: "Праздничный ужин под живой рояль", Accent: TimelinePiano },
+  { time: "22:00", title: "Завершение вечера", desc: "Провожаем этот тёплый день вместе", Accent: TimelineMoon },
 ];
 
 function Program() {
@@ -167,14 +167,18 @@ function Program() {
       <div className="wrap">
         <SecHead eyebrow="Тайминг" title="Программа дня" />
         <div className="timeline">
-          {PROGRAM.map((p, i) => (
+          {PROGRAM.map((p, i) => {
+            const Accent = p.Accent;
+            return (
             <Reveal className="tl-item" variant="left" delay={i * 80} key={i}>
               <span className="tl-dot"><Fleuron /></span>
+              <span className="tl-accent"><Accent /></span>
               <div className="tl-time">{p.time}</div>
               <div className="tl-title">{p.title}</div>
               <div className="tl-desc">{p.desc}</div>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

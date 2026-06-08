@@ -4,9 +4,9 @@
 const { LaurelSeal } = window;
 const { useState: aS, useEffect: aE } = React;
 
-/* ---------- Intro: flat paper envelope; the letter slides out ----------
-   Click the seal → flap opens, the invitation card rises out of the
-   envelope, then expands and fades into the site.                       */
+/* ---------- Intro: portrait envelope, right flap; letter slides out ----------
+   Click the seal → right flap opens, the invitation card emerges
+   horizontally, then expands and fades into the site.                    */
 function Intro({ onOpen }) {
   const [phase, setPhase] = aS("idle"); // idle -> opening -> gone
 
@@ -14,16 +14,16 @@ function Intro({ onOpen }) {
     if (phase !== "idle") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setPhase("opening");
-    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 500 : 2500);
+    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 500 : 2800);
   };
 
   return (
     <div className={`intro ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
       <div className="env-stage">
-        <div className="env-wrap">
+        <div className="env-wrap env-wrap--portrait">
           <div className="env-back"></div>
 
-          {/* the letter that slides out */}
+          {/* the letter that slides out to the right */}
           <div className="env-letter">
             <div className="letter-inner">
               <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
@@ -35,9 +35,9 @@ function Intro({ onOpen }) {
             </div>
           </div>
 
-          {/* front pocket (covers the bottom of the letter) */}
+          {/* front pocket — left side with V-seam */}
           <div className="env-front"></div>
-          {/* top flap that opens */}
+          {/* right side flap that opens */}
           <div className="env-flap"></div>
 
           <button className="seal-btn" onClick={open} aria-label="Открыть приглашение">

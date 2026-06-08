@@ -128,77 +128,107 @@ function blobPath(r, jitter) {
 const WAX_BLOB = blobPath(47, 2.6);
 
 function LaurelSeal({ className = "" }) {
-  // laurel sprig arcing up the right side; mirrored → open wreath
   const leaves = [
-    { x: 6, y: 35, r: -86 }, { x: 17, y: 25, r: -68 }, { x: 26, y: 10, r: -48 },
-    { x: 31, y: -7, r: -28 }, { x: 28, y: -23, r: -10 },
+    { x: 4, y: 36, r: -88 }, { x: 14, y: 26, r: -72 }, { x: 22, y: 12, r: -54 },
+    { x: 28, y: -4, r: -36 }, { x: 30, y: -18, r: -18 }, { x: 26, y: -30, r: -4 },
   ];
   const Branch = () => (
-    <g fill="none" strokeWidth="1.7" strokeLinecap="round">
-      <path d="M2 40 C 22 30, 35 8, 24 -30" stroke="currentColor" />
+    <g fill="none" strokeWidth="1.6" strokeLinecap="round">
+      <path d="M0 42 C 18 32, 32 10, 26 -32" stroke="currentColor" />
       {leaves.map((l, i) => (
         <g key={i} transform={`translate(${l.x} ${l.y}) rotate(${l.r})`}>
-          <path d="M0 0 C 8 -2 13 -8 11 -17 C 5 -14 1 -8 0 0 Z" fill="currentColor" stroke="none" />
+          <path d="M0 0 C 9 -2 14 -9 12 -18 C 5 -15 1 -9 0 0 Z" fill="currentColor" stroke="none" />
         </g>
       ))}
-      <circle cx="20" cy="-30" r="2" fill="currentColor" stroke="none" />
+      <circle cx="22" cy="-32" r="2.2" fill="currentColor" stroke="none" />
     </g>
   );
-  // embossed art: dark copy (down-right) + light copy (up-left) + mid copy
   const Emboss = () => (
-    <g transform="translate(0 5)">
+    <g transform="translate(0 4)">
+      <circle r="34" fill="none" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
       <Branch />
       <g transform="scale(-1,1)"><Branch /></g>
-      <text x="0" y="-7" textAnchor="middle" className="seal-mono">Е&amp;А</text>
+      <text x="0" y="-4" textAnchor="middle" className="seal-mono">Е&amp;А</text>
     </g>
   );
   return (
     <svg className={`laurel-seal ${className}`} viewBox="-62 -62 124 124" aria-hidden="true">
       <defs>
-        <radialGradient id="waxGold" cx="37%" cy="30%" r="80%">
-          <stop offset="0%" stopColor="#fbeebd" />
-          <stop offset="26%" stopColor="#ecc873" />
-          <stop offset="60%" stopColor="#c99a3d" />
-          <stop offset="86%" stopColor="#a87c28" />
-          <stop offset="100%" stopColor="#73531a" />
+        <radialGradient id="waxGold" cx="37%" cy="28%" r="82%">
+          <stop offset="0%" stopColor="#fff4cc" />
+          <stop offset="18%" stopColor="#fbeebd" />
+          <stop offset="42%" stopColor="#e8c46a" />
+          <stop offset="68%" stopColor="#c99a3d" />
+          <stop offset="88%" stopColor="#9a7424" />
+          <stop offset="100%" stopColor="#6b4a14" />
         </radialGradient>
-        <radialGradient id="waxBasin" cx="50%" cy="44%" r="60%">
-          <stop offset="0%" stopColor="#d9ab4e" />
-          <stop offset="78%" stopColor="#c99a3d" />
-          <stop offset="100%" stopColor="#caa049" />
+        <linearGradient id="signetRing" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f5e6b8" />
+          <stop offset="35%" stopColor="#c9a26b" />
+          <stop offset="65%" stopColor="#8a6420" />
+          <stop offset="100%" stopColor="#e8d08a" />
+        </linearGradient>
+        <radialGradient id="waxBasin" cx="48%" cy="42%" r="58%">
+          <stop offset="0%" stopColor="#e0b85a" />
+          <stop offset="55%" stopColor="#c99a3d" />
+          <stop offset="100%" stopColor="#a87c28" />
         </radialGradient>
-        <radialGradient id="waxSheen" cx="35%" cy="26%" r="42%">
-          <stop offset="0%" stopColor="#fff9e6" stopOpacity="0.92" />
+        <radialGradient id="waxSheen" cx="32%" cy="24%" r="40%">
+          <stop offset="0%" stopColor="#fff9e6" stopOpacity="0.95" />
           <stop offset="100%" stopColor="#fff9e6" stopOpacity="0" />
         </radialGradient>
+        <radialGradient id="waxSheen2" cx="68%" cy="38%" r="28%">
+          <stop offset="0%" stopColor="#fffdf5" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#fffdf5" stopOpacity="0" />
+        </radialGradient>
         <filter id="waxDrop" x="-40%" y="-40%" width="180%" height="180%">
-          <feDropShadow dx="0" dy="2.2" stdDeviation="2.4" floodColor="#4a350c" floodOpacity="0.55" />
+          <feDropShadow dx="0" dy="2.6" stdDeviation="2.8" floodColor="#3a2808" floodOpacity="0.62" />
         </filter>
         <filter id="waxGrain" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="n" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="3" result="n" />
           <feColorMatrix in="n" type="saturate" values="0" />
-          <feComponentTransfer><feFuncA type="linear" slope="0.16" /></feComponentTransfer>
+          <feComponentTransfer><feFuncA type="linear" slope="0.22" /></feComponentTransfer>
           <feComposite operator="in" in2="SourceGraphic" />
         </filter>
-        <filter id="basinShadow" x="-40%" y="-40%" width="180%" height="180%">
-          <feDropShadow dx="0" dy="1.4" stdDeviation="1.4" floodColor="#5a3f0e" floodOpacity="0.6" />
+        <filter id="basinShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="2.2" stdDeviation="2.2" floodColor="#3d2a08" floodOpacity="0.75" />
+          <feDropShadow dx="0" dy="-1" stdDeviation="1" floodColor="#fcefc2" floodOpacity="0.25" />
+        </filter>
+        <filter id="basinInset" x="-30%" y="-30%" width="160%" height="160%">
+          <feOffset dx="0" dy="1.5" />
+          <feGaussianBlur stdDeviation="1.2" />
+          <feComposite operator="out" in="SourceGraphic" />
+          <feFlood floodColor="#4a320a" floodOpacity="0.5" />
+          <feComposite operator="in" in2="SourceGraphic" />
         </filter>
         <clipPath id="waxClip"><path d={WAX_BLOB} /></clipPath>
       </defs>
 
-      {/* drips at the bottom */}
-      <ellipse cx="-14" cy="46" rx="7" ry="9" fill="url(#waxGold)" filter="url(#waxDrop)" />
-      <ellipse cx="20" cy="45" rx="5.5" ry="7.5" fill="url(#waxGold)" filter="url(#waxDrop)" />
+      {/* wax thread */}
+      <path d="M-6 44 Q -2 52 4 58 Q 8 62 6 68" fill="none" stroke="url(#waxGold)" strokeWidth="2.2" strokeLinecap="round" opacity="0.85" filter="url(#waxDrop)" />
+
+      {/* drips — asymmetric */}
+      <ellipse cx="-18" cy="47" rx="8" ry="10" fill="url(#waxGold)" filter="url(#waxDrop)" />
+      <ellipse cx="8" cy="48" rx="5" ry="7" fill="url(#waxGold)" filter="url(#waxDrop)" />
+      <ellipse cx="24" cy="44" rx="3.5" ry="5" fill="url(#waxGold)" filter="url(#waxDrop)" opacity="0.9" />
 
       {/* main wax blob */}
       <path d={WAX_BLOB} fill="url(#waxGold)" filter="url(#waxDrop)" />
-      {/* outer rolled rim */}
-      <path d={WAX_BLOB} fill="none" stroke="#7d5c1c" strokeWidth="1.6" opacity="0.4" />
+      <path d={WAX_BLOB} fill="none" stroke="#6e5018" strokeWidth="1.8" opacity="0.45" />
+
+      {/* edge bubbles / cracks */}
+      <circle cx="-38" cy="12" r="2.2" fill="#8a6420" opacity="0.35" />
+      <circle cx="42" cy="-8" r="1.6" fill="#5a3f0e" opacity="0.3" />
+      <path d="M-44 28 Q -40 32 -36 30" fill="none" stroke="#5a3f0e" strokeWidth="0.8" opacity="0.4" />
+
+      {/* metallic signet ring */}
+      <circle r="42" fill="none" stroke="url(#signetRing)" strokeWidth="2.4" opacity="0.92" />
+      <circle r="41" fill="none" stroke="#f5e6b8" strokeWidth="0.6" opacity="0.5" />
 
       {/* pressed inner basin */}
-      <circle r="40" fill="url(#waxBasin)" filter="url(#basinShadow)" />
-      <circle r="40" fill="none" stroke="#6e4f14" strokeWidth="1.3" opacity="0.45" />
-      <circle r="37" fill="none" stroke="#fcefc2" strokeWidth="1" opacity="0.4" />
+      <circle r="38" fill="url(#waxBasin)" filter="url(#basinShadow)" />
+      <circle r="38" fill="none" stroke="#5a3f0e" strokeWidth="1.4" opacity="0.5" filter="url(#basinInset)" />
+      <circle r="35" fill="none" stroke="#fcefc2" strokeWidth="0.9" opacity="0.45" />
 
       {/* embossed laurel + monogram */}
       <g className="seal-emboss-dark"><Emboss /></g>
@@ -208,7 +238,8 @@ function LaurelSeal({ className = "" }) {
       {/* wax grain + sheen */}
       <g clipPath="url(#waxClip)">
         <rect x="-62" y="-62" width="124" height="124" fill="#3a2a08" filter="url(#waxGrain)" style={{ mixBlendMode: "multiply" }} />
-        <ellipse cx="-13" cy="-15" rx="27" ry="19" fill="url(#waxSheen)" />
+        <ellipse cx="-14" cy="-16" rx="28" ry="20" fill="url(#waxSheen)" />
+        <ellipse cx="18" cy="6" rx="16" ry="11" fill="url(#waxSheen2)" style={{ mixBlendMode: "screen" }} />
       </g>
     </svg>
   );
@@ -390,6 +421,60 @@ function ClosingScene({ className = "" }) {
 }
 
 /* ---------------------------------------------------------------
+   TIMELINE ACCENTS — thematic mini-icons beside program markers
+   --------------------------------------------------------------- */
+function TimelineRings({ className = "" }) {
+  return (
+    <svg className={`tl-icon ${className}`} viewBox="0 0 32 32"
+      fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" aria-hidden="true">
+      <ellipse cx="13" cy="17" rx="8" ry="8" transform="rotate(-18 13 17)" />
+      <ellipse cx="19" cy="15" rx="8" ry="8" transform="rotate(22 19 15)" />
+      <path d="M11 11 L9 7 M21 9 L23 5" strokeWidth="0.9" opacity="0.7" />
+    </svg>
+  );
+}
+
+function TimelineGlasses({ className = "" }) {
+  return (
+    <svg className={`tl-icon ${className}`} viewBox="0 0 32 32"
+      fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" aria-hidden="true">
+      <path d="M6 14 C6 22 12 24 16 24 C20 24 26 22 26 14 C26 12 6 12 6 14 Z" />
+      <path d="M16 24 L16 28 M12 29 L20 29" />
+      <path d="M10 10 C12 6 14 4 16 4 C18 4 20 6 22 10" strokeWidth="0.9" opacity="0.75" />
+      <circle cx="16" cy="2" r="1" fill="currentColor" stroke="none" opacity="0.6" />
+    </svg>
+  );
+}
+
+function TimelinePiano({ className = "" }) {
+  return (
+    <svg className={`tl-icon ${className}`} viewBox="0 0 32 32"
+      fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" aria-hidden="true">
+      <rect x="4" y="10" width="24" height="14" rx="1" />
+      {[8, 12, 16, 20, 24].map((x) => <path key={x} d={`M${x} 10 L${x} 24`} strokeWidth="0.8" opacity="0.5" />)}
+      <rect x="9" y="10" width="3" height="8" fill="currentColor" stroke="none" opacity="0.85" />
+      <rect x="15" y="10" width="3" height="8" fill="currentColor" stroke="none" opacity="0.85" />
+      <rect x="21" y="10" width="3" height="8" fill="currentColor" stroke="none" opacity="0.85" />
+      <path d="M8 26 C12 28 20 28 24 26" strokeWidth="0.9" opacity="0.6" />
+      <path d="M26 8 L28 6 M28 12 L30 10" strokeWidth="0.8" opacity="0.65" />
+    </svg>
+  );
+}
+
+function TimelineMoon({ className = "" }) {
+  return (
+    <svg className={`tl-icon ${className}`} viewBox="0 0 32 32"
+      fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" aria-hidden="true">
+      <path d="M20 6 C14 6 10 11 10 17 C10 23 14 28 20 28 C17 26 15 22 15 17 C15 12 17 8 20 6 Z" fill="currentColor" stroke="none" opacity="0.15" />
+      <path d="M20 6 C14 6 10 11 10 17 C10 23 14 28 20 28 C17 26 15 22 15 17 C15 12 17 8 20 6 Z" />
+      <path className="ch-flame" style={{ transformOrigin: "8px 22px" }} d="M8 18 C10 14 10 10 8 8 C6 10 6 14 8 18 Z" fill="currentColor" stroke="none" />
+      <path d="M8 18 L8 22 M5 23 L11 23" strokeWidth="0.9" />
+      <path d="M5 23 L5 28 L11 28 L11 23" />
+    </svg>
+  );
+}
+
+/* ---------------------------------------------------------------
    FLEURON — small vintage stucco rosette for timeline markers
    --------------------------------------------------------------- */
 function Fleuron({ className = "" }) {
@@ -414,4 +499,5 @@ function Fleuron({ className = "" }) {
 
 Object.assign(window, {
   Chandelier, LaurelSeal, Dove, RibbonBow, BotanicalCorner, Candle, Dandelion, ClosingScene, Fleuron,
+  TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon,
 });
