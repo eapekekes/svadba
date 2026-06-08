@@ -9,12 +9,19 @@ const { useState: aS, useEffect: aE } = React;
    horizontally, then expands and fades into the site.                    */
 function Intro({ onOpen }) {
   const [phase, setPhase] = aS("idle"); // idle -> opening -> gone
+  const [slotOpen, setSlotOpen] = aS(false);
 
   const open = () => {
     if (phase !== "idle") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setPhase("opening");
-    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 500 : 2800);
+    if (reduce) {
+      setSlotOpen(true);
+      setTimeout(() => { setPhase("gone"); onOpen(); }, 500);
+      return;
+    }
+    setTimeout(() => setSlotOpen(true), 720);
+    setTimeout(() => { setPhase("gone"); setSlotOpen(false); onOpen(); }, 2800);
   };
 
   return (
@@ -23,15 +30,17 @@ function Intro({ onOpen }) {
         <div className="env-wrap env-wrap--portrait">
           <div className="env-back"></div>
 
-          {/* the letter that slides out to the right */}
-          <div className="env-letter">
-            <div className="letter-inner">
-              <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
-              <span className="lt-corner bl"></span><span className="lt-corner br"></span>
-              <p className="lt-kicker">Приглашение на свадьбу</p>
-              <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
-              <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
-              <p className="lt-date">11 октября 2026 · Москва</p>
+          {/* letter lives inside a clipped slot — emerges only through the opening */}
+          <div className={`env-letter-slot${slotOpen ? " open" : ""}`}>
+            <div className="env-letter">
+              <div className="letter-inner">
+                <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
+                <span className="lt-corner bl"></span><span className="lt-corner br"></span>
+                <p className="lt-kicker">Приглашение на свадьбу</p>
+                <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
+                <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
+                <p className="lt-date">11 октября 2026 · Москва</p>
+              </div>
             </div>
           </div>
 

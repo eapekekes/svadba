@@ -3,7 +3,7 @@
    ============================================================ */
 const { Reveal, Ornament, SecHead, Placeholder, Photo, useCountdown } = window;
 const { useState: useS, useEffect: useE, useRef: useR } = React;
-const { Dove, RibbonBow, BotanicalCorner, Dandelion, Fleuron, TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon } = window;
+const { Dove, RibbonBow, BotanicalCorner, Dandelion, TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon } = window;
 
 /* ============================================================
    HERO
@@ -171,8 +171,7 @@ function Program() {
             const Accent = p.Accent;
             return (
             <Reveal className="tl-item" variant="left" delay={i * 80} key={i}>
-              <span className="tl-dot"><Fleuron /></span>
-              <span className="tl-accent"><Accent /></span>
+              <span className="tl-marker"><Accent /></span>
               <div className="tl-time">{p.time}</div>
               <div className="tl-title">{p.title}</div>
               <div className="tl-desc">{p.desc}</div>
