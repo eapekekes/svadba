@@ -1,42 +1,53 @@
 /* ============================================================
    sections.jsx — page sections for the wedding landing
    ============================================================ */
-const { Reveal, Ornament, SecHead, Placeholder, Photo, useCountdown, useParallax } = window;
+const { Reveal, Ornament, SecHead, Placeholder, Photo, useCountdown } = window;
 const { useState: useS, useEffect: useE, useRef: useR } = React;
+const { Dove, RibbonBow, BotanicalCorner, Dandelion, Fleuron } = window;
 
 /* ============================================================
    HERO
    ============================================================ */
 function Hero() {
-  const ringA = useParallax(0.18);
-  const ringB = useParallax(0.26);
-  const inner = useParallax(-0.06);
+  const ref = useR(null);
+  const [go, setGo] = useS(false);
+  useE(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { setGo(true); io.disconnect(); } });
+    }, { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
     <header className="hero bg-marble" id="top" data-screen-label="Обложка">
-      <div className="frame">
-        <span className="corner tl"></span><span className="corner tr"></span>
-        <span className="corner bl"></span><span className="corner br"></span>
-      </div>
-      <div className="deco ring a" ref={ringA}></div>
-      <div className="deco ring b" ref={ringB}></div>
+      <div className={`engraved ${go ? "play" : ""}`} ref={ref}>
+        {/* drawn double border */}
+        <svg className="eng-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <rect className="ef-outer" x="1" y="1" width="98" height="98" fill="none" vectorEffect="non-scaling-stroke" />
+          <rect className="ef-inner" x="3.2" y="3.2" width="93.6" height="93.6" fill="none" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <BotanicalCorner className="eng-bot tl" />
+        <BotanicalCorner className="eng-bot tr" />
+        <BotanicalCorner className="eng-bot bl" />
+        <BotanicalCorner className="eng-bot br" />
 
-      <div className="hero-inner" ref={inner}>
-        <Reveal className="kicker" variant="fade" delay={150}>
-          <p className="eyebrow">Приглашение на свадьбу</p>
-        </Reveal>
-        <Reveal variant="up" delay={300}>
-          <h1 className="names display">
-            <span className="nm">Егор</span>
-            <span className="amp">и</span>
-            <span className="nm">Анастасия</span>
-          </h1>
-        </Reveal>
-        <Reveal variant="up" delay={550}>
-          <p className="meta">
-            11 октября 2026
-            <span className="city">Москва</span>
-          </p>
-        </Reveal>
+        <div className="eng-crown">
+          <Dove className="anim-dove dl" />
+          <RibbonBow className="anim-bow" />
+          <Dove flip={true} className="anim-dove dr" />
+        </div>
+
+        <p className="eng-kicker anim-line">Мы женимся</p>
+        <h1 className="eng-names anim-names">Егор <span className="amp">и</span> Анастасия</h1>
+        <p className="eng-sub anim-line">Будем счастливы видеть вас рядом в этот особенный день</p>
+
+        <div className="eng-when anim-line">
+          <span className="w-side">Воскресенье</span>
+          <span className="eng-oval"><span>11</span></span>
+          <span className="w-side">Октября<br />2026</span>
+        </div>
       </div>
 
       <div className="scroll-cue" aria-hidden="true">
@@ -92,27 +103,15 @@ function Countdown() {
 }
 
 /* ============================================================
-   STORY + GALLERY
+   STORY — single featured photo
    ============================================================ */
-const GALLERY = [
-  { cls: "g-a", cap: "Как всё начиналось", src: "images/couple/photo-1.jpg", label: "фото пары · горизонт. 4:3" },
-  { cls: "g-b", cap: "Первое свидание", src: "images/couple/photo-2.jpg", label: "фото · портрет 3:4" },
-  { cls: "g-c", cap: "Наши путешествия", src: "images/couple/photo-3.jpg", label: "фото · портрет 3:4" },
-  { cls: "g-d", cap: "Помолвка", src: "images/couple/photo-4.jpg", label: "фото · квадрат 1:1" },
-  { cls: "g-e", cap: "Просто мы", src: "images/couple/photo-5.jpg", label: "фото · квадрат 1:1" },
-];
-
 function Story() {
-  const [lb, setLb] = useS(-1);
-  const open = lb >= 0;
+  const [open, setOpen] = useS(false);
+  const photo = { src: "images/couple/photo-1.jpg", cap: "Наша история", label: "ваше фото пары · 3:2" };
 
   useE(() => {
     if (!open) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setLb(-1);
-      if (e.key === "ArrowRight") setLb((i) => (i + 1) % GALLERY.length);
-      if (e.key === "ArrowLeft") setLb((i) => (i - 1 + GALLERY.length) % GALLERY.length);
-    };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -131,24 +130,20 @@ function Story() {
         </Reveal>
 
         <Reveal variant="up" delay={120}>
-          <div className="gallery">
-            {GALLERY.map((g, i) => (
-              <div className={`g-item ${g.cls}`} key={i} onClick={() => setLb(i)}>
-                <Photo src={g.src} label={g.label} />
-                <span className="cap">{g.cap}</span>
-              </div>
-            ))}
+          <div className="story-photo-wrap">
+            <div className="story-photo" onClick={() => setOpen(true)}>
+              <Photo src={photo.src} label={photo.label} />
+              <span className="cap">{photo.cap}</span>
+            </div>
           </div>
         </Reveal>
       </div>
 
-      <div className={`lightbox ${open ? "open" : ""}`} onClick={() => setLb(-1)}>
-        <button className="lb-close" aria-label="Закрыть" onClick={() => setLb(-1)}>×</button>
-        <button className="lb-nav lb-prev" aria-label="Назад" onClick={(e) => { e.stopPropagation(); setLb((i) => (i - 1 + GALLERY.length) % GALLERY.length); }}>‹</button>
-        <button className="lb-nav lb-next" aria-label="Вперёд" onClick={(e) => { e.stopPropagation(); setLb((i) => (i + 1) % GALLERY.length); }}>›</button>
+      <div className={`lightbox ${open ? "open" : ""}`} onClick={() => setOpen(false)}>
+        <button className="lb-close" aria-label="Закрыть" onClick={() => setOpen(false)}>×</button>
         <div className="lb-stage" onClick={(e) => e.stopPropagation()}>
-          {open && <Photo src={GALLERY[lb].src} label={GALLERY[lb].label} />}
-          {open && <p className="lb-cap">{GALLERY[lb].cap}</p>}
+          {open && <Photo src={photo.src} label={photo.label} />}
+          {open && <p className="lb-cap">{photo.cap}</p>}
         </div>
       </div>
     </section>
@@ -168,12 +163,13 @@ const PROGRAM = [
 function Program() {
   return (
     <section className="section bg-marble" id="program" data-screen-label="Программа дня">
+      <Dandelion className="sec-sketch dandelion" style={{ top: "7%", right: "7%" }} />
       <div className="wrap">
         <SecHead eyebrow="Тайминг" title="Программа дня" />
         <div className="timeline">
           {PROGRAM.map((p, i) => (
             <Reveal className="tl-item" variant="left" delay={i * 80} key={i}>
-              <span className="tl-dot"></span>
+              <span className="tl-dot"><Fleuron /></span>
               <div className="tl-time">{p.time}</div>
               <div className="tl-title">{p.title}</div>
               <div className="tl-desc">{p.desc}</div>

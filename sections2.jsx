@@ -1,88 +1,40 @@
 /* ============================================================
    sections2.jsx — Venue, Dress code, RSVP, Gifts, Footer
    ============================================================ */
-const { Reveal: Rv, SecHead: SH, Placeholder: PH, Photo: Img, useParallax: useP } = window;
+const { Reveal: Rv, SecHead: SH } = window;
 const { useState: uS, useEffect: uE } = React;
+const { Chandelier, ClosingScene } = window;
 
 /* ============================================================
-   VENUE + MAP
+   VENUE — chandelier + address + maps
    ============================================================ */
-const ADDR = "Новая Басманная ул., 19стр1, Москва, 107078";
 const Q = encodeURIComponent("Новая Басманная улица 19 строение 1 Москва");
 const YANDEX = `https://yandex.ru/maps/?text=${Q}`;
 const GOOGLE = `https://www.google.com/maps/search/?api=1&query=${Q}`;
 
-function MapArt() {
-  return (
-    <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="600" height="240" fill="#f3ede2" />
-      {/* river / park hint */}
-      <path d="M-20 60 C120 30 200 120 360 90 C460 70 540 110 620 80 L620 0 L-20 0 Z" fill="rgba(138,154,123,.10)" />
-      {/* roads */}
-      <g stroke="#e0d4be" strokeWidth="14" fill="none" strokeLinecap="round">
-        <path d="M-10 150 L610 120" />
-        <path d="M120 -10 L150 250" />
-        <path d="M420 -10 L390 250" />
-        <path d="M-10 200 L300 185 L610 210" />
-      </g>
-      <g stroke="#ece2cf" strokeWidth="5" fill="none">
-        <path d="M-10 95 L610 70" />
-        <path d="M260 -10 L280 250" />
-      </g>
-      {/* blocks */}
-      <g fill="rgba(201,162,107,.10)">
-        <rect x="170" y="135" width="70" height="40" rx="4" />
-        <rect x="300" y="130" width="60" height="38" rx="4" />
-        <rect x="180" y="55" width="55" height="30" rx="4" />
-        <rect x="330" y="50" width="48" height="28" rx="4" />
-      </g>
-    </svg>
-  );
-}
-
 function Venue() {
-  const photos = useP(0.08);
   return (
     <section className="section venue" id="venue" data-screen-label="Место проведения">
       <div className="wrap">
-        <SH eyebrow="Место проведения" title="Старинная усадьба" />
+        <SH eyebrow="Место проведения" title="Локация" />
         <div className="venue-grid">
           <Rv variant="left">
-            <div className="venue-photos" ref={photos}>
-              <Img className="wide" src="images/venue/hall-main.webp" label="зал · общий вид" />
-              <Img src="images/venue/hall-celing.webp" label="лепнина · потолок" />
-              <Img src="images/venue/hall-piano.webp" label="рояль · зеркала" />
+            <div className="venue-art">
+              <Chandelier className="venue-chandelier" />
             </div>
           </Rv>
           <Rv variant="right" delay={100}>
             <div className="venue-info">
-              <p className="eyebrow">11 октября · 15:00</p>
-              <h3 className="venue-name display">Усадьба на Новой Басманной</h3>
-              <p className="venue-addr">{ADDR}</p>
-              <p className="lead" style={{ marginTop: 18, fontSize: "clamp(18px,4.4vw,21px)" }}>
-                Высокие потолки и тонкая лепнина, хрустальная люстра, старинные зеркала
-                и живой рояль — атмосфера, в которой каждый момент станет особенным.
+              <p className="eyebrow">11 октября · сбор гостей в 14:30</p>
+              <h3 className="venue-name">Усадьба на Новой Басманной</h3>
+              <p className="venue-addr">
+                Наше торжество пройдёт в старинной усадьбе с тонкой лепниной,
+                хрустальной люстрой и живым роялем, по адресу:<br />
+                <strong>г. Москва, Новая Басманная ул., 19 стр. 1</strong>
               </p>
-              <ul className="venue-feats">
-                <li>Лепнина и высокие потолки</li>
-                <li>Хрустальная люстра</li>
-                <li>Зеркальный зал</li>
-                <li>Живой рояль</li>
-              </ul>
-
-              <div className="map-card">
-                <div className="map-canvas">
-                  <MapArt />
-                  <svg className="map-pin" viewBox="0 0 34 34" aria-hidden="true">
-                    <path d="M17 2C10.9 2 6 6.9 6 13c0 7.5 11 19 11 19s11-11.5 11-19C28 6.9 23.1 2 17 2z"
-                      fill="#ac8748" stroke="#fff8ec" strokeWidth="1.5" />
-                    <circle cx="17" cy="13" r="4.2" fill="#fff8ec" />
-                  </svg>
-                </div>
-                <div className="map-actions">
-                  <a className="btn btn-gold" href={YANDEX} target="_blank" rel="noopener">Яндекс.Карты</a>
-                  <a className="btn btn-ghost" href={GOOGLE} target="_blank" rel="noopener">Google Maps</a>
-                </div>
+              <div className="venue-maps">
+                <a className="btn btn-gold" href={YANDEX} target="_blank" rel="noopener">Яндекс.Карты</a>
+                <a className="btn btn-ghost" href={GOOGLE} target="_blank" rel="noopener">Google Maps</a>
               </div>
             </div>
           </Rv>
@@ -246,13 +198,12 @@ function Gifts() {
         <Rv variant="up">
           <div className="gift-icon">✣</div>
           <p className="gift-text">
-            Самый дорогой подарок для нас — это вы рядом в этот день. Если же вам
-            захочется нас порадовать, мы будем благодарны за вклад в наше общее будущее
-            и маленькое свадебное путешествие.
+            Самый дорогой подарок для нас — это вы рядом в этот день. Дарить цветы и
+            букеты, пожалуйста, не нужно.
           </p>
           <p className="gift-text" style={{ marginTop: 14, fontStyle: "italic" }}>
-            А вместо большого букета будем рады одной любимой розе — её проще донести
-            до конца вечера и легко увезти домой.
+            Если же вам захочется нас порадовать, мы будем благодарны за вклад деньгами
+            в наше общее будущее и свадебное путешествие.
           </p>
         </Rv>
       </div>
@@ -267,9 +218,10 @@ function Footer() {
   return (
     <footer className="footer" data-screen-label="Подвал">
       <Rv variant="scale">
-        <div className="f-mono">Е &amp; А</div>
+        <ClosingScene />
+        <div className="f-mono">Ждём вас, дорогие</div>
         <div className="f-date">11 · 10 · 2026 · Москва</div>
-        <div className="f-sign">С любовью ждём вас — Егор и Анастасия</div>
+        <div className="f-sign">С любовью, Егор и Анастасия</div>
       </Rv>
     </footer>
   );

@@ -1,31 +1,52 @@
 /* ============================================================
-   app.jsx — intro envelope, chrome, assembly
+   app.jsx — envelope intro, chrome, assembly
    ============================================================ */
-const { Petals } = window;
-const { useState: aS, useEffect: aE, useRef: aR } = React;
+const { LaurelSeal } = window;
+const { useState: aS, useEffect: aE } = React;
 
-/* ---------- Intro envelope with wax seal ---------- */
+/* ---------- Intro: flat paper envelope; the letter slides out ----------
+   Click the seal → flap opens, the invitation card rises out of the
+   envelope, then expands and fades into the site.                       */
 function Intro({ onOpen }) {
   const [phase, setPhase] = aS("idle"); // idle -> opening -> gone
+
   const open = () => {
     if (phase !== "idle") return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setPhase("opening");
-    setTimeout(() => { setPhase("gone"); onOpen(); }, 950);
+    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 500 : 2500);
   };
+
   return (
-    <div className={`intro bg-marble ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
-      <div className="envelope" onClick={open} role="button" tabIndex={0}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") open(); }}>
-        <div className="seal">
-          <span className="mono">Е&amp;А</span>
-          <span className="yr">11.10.2026</span>
-        </div>
-        <p className="eyebrow intro-eyebrow">Вы приглашены</p>
-        <div className="intro-names display">Егор &amp; Анастасия</div>
-        <div className="intro-hint">
-          <span>нажмите, чтобы открыть</span>
+    <div className={`intro ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
+      <div className="env-stage">
+        <div className="env-wrap">
+          <div className="env-back"></div>
+
+          {/* the letter that slides out */}
+          <div className="env-letter">
+            <div className="letter-inner">
+              <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
+              <span className="lt-corner bl"></span><span className="lt-corner br"></span>
+              <p className="lt-kicker">Приглашение на свадьбу</p>
+              <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
+              <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
+              <p className="lt-date">11 октября 2026 · Москва</p>
+            </div>
+          </div>
+
+          {/* front pocket (covers the bottom of the letter) */}
+          <div className="env-front"></div>
+          {/* top flap that opens */}
+          <div className="env-flap"></div>
+
+          <button className="seal-btn" onClick={open} aria-label="Открыть приглашение">
+            <LaurelSeal />
+          </button>
         </div>
       </div>
+      <span className="env-hint">нажмите на печать</span>
+      <div className="env-paper-grain"></div>
     </div>
   );
 }
@@ -75,9 +96,7 @@ function Chrome({ ready }) {
 function App() {
   const [ready, setReady] = aS(false);
 
-  aE(() => {
-    document.body.classList.add("locked");
-  }, []);
+  aE(() => { document.body.classList.add("locked"); }, []);
 
   const onOpen = () => {
     document.body.classList.remove("locked");
@@ -89,7 +108,6 @@ function App() {
 
   return (
     <React.Fragment>
-      <Petals active={ready} />
       <Chrome ready={ready} />
       <main style={{ position: "relative", zIndex: 3 }}>
         <Hero />
