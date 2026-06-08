@@ -1,57 +1,8 @@
 /* ============================================================
-   app.jsx — envelope intro, chrome, assembly
+   app.jsx — chrome, assembly
    ============================================================ */
-const { LaurelSeal } = window;
 const { useState: aS, useEffect: aE } = React;
-
-/* ---------- Intro: full-screen envelope back (lovellink reference) ----------
-   z-order: cavity → body+hint → flap → grain → seal.                        */
-function Intro({ onOpen }) {
-  const [phase, setPhase] = aS("idle");
-
-  const open = () => {
-    if (phase !== "idle") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setPhase("opening");
-    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 450 : 2700);
-  };
-
-  return (
-    <div className={`intro ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
-      <div className="env">
-        <div className="env__cavity" aria-hidden="true">
-          <div className="env__card">
-            <div className="letter-inner">
-              <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
-              <span className="lt-corner bl"></span><span className="lt-corner br"></span>
-              <p className="lt-kicker">Приглашение на свадьбу</p>
-              <h2 className="lt-names">Егор <span className="amp">и</span> Анастасия</h2>
-              <div className="lt-rule"><span></span><span className="dot"></span><span></span></div>
-              <p className="lt-date">11 октября 2026 · Москва</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="env__body">
-          <span className="env__hint">нажмите на печать</span>
-        </div>
-
-        <div className="env__flap" aria-hidden="true" />
-
-        <svg className="env__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line className="env__line" x1="0" y1="0" x2="56" y2="39" />
-          <line className="env__line env__line--right" x1="100" y1="0" x2="56" y2="39" />
-        </svg>
-
-        <div className="env__grain" aria-hidden="true" />
-
-        <button className="env__seal" onClick={open} aria-label="Открыть приглашение">
-          <LaurelSeal />
-        </button>
-      </div>
-    </div>
-  );
-}
+const { EnvelopeIntro } = window;
 
 /* ---------- Top chrome: progress bar, topbar, rsvp pill ---------- */
 function Chrome({ ready }) {
@@ -112,7 +63,7 @@ function App() {
     <React.Fragment>
       <Chrome ready={ready} />
       <main style={{ position: "relative", zIndex: 3 }}>
-        <Hero />
+        <Hero introDone={ready} />
         <Countdown />
         <Story />
         <Program />
@@ -122,7 +73,7 @@ function App() {
         <Gifts />
         <Footer />
       </main>
-      <Intro onOpen={onOpen} />
+      <EnvelopeIntro onOpen={onOpen} />
     </React.Fragment>
   );
 }

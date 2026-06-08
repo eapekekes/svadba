@@ -153,30 +153,32 @@ function LaurelSeal({ className = "" }) {
     <svg className={`laurel-seal ${className}`} viewBox="-50 -50 100 100" aria-hidden="true">
       <defs>
         <radialGradient id="waxChampagne" cx="38%" cy="32%" r="72%">
-          <stop offset="0%" stopColor="#faf7f0" />
-          <stop offset="35%" stopColor="#e9deca" />
-          <stop offset="70%" stopColor="#d2c0a0" />
-          <stop offset="100%" stopColor="#b9a684" />
+          <stop offset="0%" stopColor="#f8efdf" />
+          <stop offset="42%" stopColor="#e5d2b2" />
+          <stop offset="74%" stopColor="#cfb589" />
+          <stop offset="100%" stopColor="#bda274" />
         </radialGradient>
         <radialGradient id="waxBasin" cx="50%" cy="45%" r="50%">
-          <stop offset="0%" stopColor="#e6dac4" />
-          <stop offset="100%" stopColor="#c8b696" />
+          <stop offset="0%" stopColor="#e6d5b8" />
+          <stop offset="100%" stopColor="#cfb78d" />
         </radialGradient>
         <radialGradient id="waxSheen" cx="32%" cy="26%" r="35%">
-          <stop offset="0%" stopColor="#fffdf8" stopOpacity="0.95" />
+          <stop offset="0%" stopColor="#fffdf8" stopOpacity="0.78" />
           <stop offset="100%" stopColor="#fffdf8" stopOpacity="0" />
         </radialGradient>
         <filter id="waxDrop" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="0" dy="1.8" stdDeviation="1.8" floodColor="#8a7858" floodOpacity="0.35" />
+          <feDropShadow dx="0" dy="1.1" stdDeviation="1.2" floodColor="#806d4e" floodOpacity="0.22" />
         </filter>
         <clipPath id="waxClip"><path d={WAX_DISC} /></clipPath>
       </defs>
 
       <path d={WAX_DISC} fill="url(#waxChampagne)" filter="url(#waxDrop)" />
-      <path d={WAX_DISC} fill="none" stroke="#b0a080" strokeWidth="0.7" opacity="0.45" />
+      <path d={WAX_DISC} fill="none" stroke="#d7bf8e" strokeWidth="0.45" opacity="0.72" />
+      <path d={WAX_DISC} fill="none" stroke="#8e7955" strokeWidth="0.35" opacity="0.18" transform="scale(0.965)" />
 
       <circle r="32" fill="url(#waxBasin)" />
-      <circle r="32" fill="none" stroke="#a89878" strokeWidth="0.5" opacity="0.35" />
+      <circle r="32" fill="none" stroke="#f7ead1" strokeWidth="0.45" opacity="0.5" />
+      <circle r="28" fill="none" stroke="#8f7955" strokeWidth="0.35" opacity="0.18" />
 
       <g className="seal-wreath-hi" style={{ transform: "translate(-0.4px, -0.5px)" }}><Wreath /></g>
       <g className="seal-wreath"><Wreath /></g>

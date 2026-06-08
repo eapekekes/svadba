@@ -3,14 +3,15 @@
    ============================================================ */
 const { Reveal, Ornament, SecHead, Placeholder, Photo, useCountdown } = window;
 const { useState: useS, useEffect: useE, useRef: useR } = React;
-const { Dove, RibbonBow, BotanicalCorner, Dandelion, TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon } = window;
+const { Dandelion, TimelineRings, TimelineGlasses, TimelinePiano, TimelineMoon, InvitationCover } = window;
 
 /* ============================================================
    HERO
    ============================================================ */
-function Hero() {
+function Hero({ introDone = false }) {
   const ref = useR(null);
   const [go, setGo] = useS(false);
+  const play = go || introDone;
   useE(() => {
     const el = ref.current;
     if (!el) return;
@@ -22,33 +23,7 @@ function Hero() {
   }, []);
   return (
     <header className="hero bg-marble" id="top" data-screen-label="Обложка">
-      <div className={`engraved ${go ? "play" : ""}`} ref={ref}>
-        {/* drawn double border */}
-        <svg className="eng-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <rect className="ef-outer" x="1" y="1" width="98" height="98" fill="none" vectorEffect="non-scaling-stroke" />
-          <rect className="ef-inner" x="3.2" y="3.2" width="93.6" height="93.6" fill="none" vectorEffect="non-scaling-stroke" />
-        </svg>
-        <BotanicalCorner className="eng-bot tl" />
-        <BotanicalCorner className="eng-bot tr" />
-        <BotanicalCorner className="eng-bot bl" />
-        <BotanicalCorner className="eng-bot br" />
-
-        <div className="eng-crown">
-          <Dove className="anim-dove dl" />
-          <RibbonBow className="anim-bow" />
-          <Dove flip={true} className="anim-dove dr" />
-        </div>
-
-        <p className="eng-kicker anim-line">Мы женимся</p>
-        <h1 className="eng-names anim-names">Егор <span className="amp">и</span> Анастасия</h1>
-        <p className="eng-sub anim-line">Будем счастливы видеть вас рядом в этот особенный день</p>
-
-        <div className="eng-when anim-line">
-          <span className="w-side">Воскресенье</span>
-          <span className="eng-oval"><span>11</span></span>
-          <span className="w-side">Октября<br />2026</span>
-        </div>
-      </div>
+      <InvitationCover className="engraved" play={play} ref={ref} />
 
       <div className="scroll-cue" aria-hidden="true">
         <span>листайте</span>
