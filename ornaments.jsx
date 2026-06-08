@@ -104,95 +104,94 @@ function Chandelier({ className = "", style = {}, animate = true }) {
 }
 
 /* ---------------------------------------------------------------
-   WAX SEAL — scalloped gold medallion, baroque frame, monogram
-   Palette only: #fff4cc #fbeebd #e8c46a #c99a3d #9a7424 #6b4a14
+   WAX SEAL — champagne wax + embossed laurel wreath (reference style)
    --------------------------------------------------------------- */
-function scallopPath(r, lobes, depth) {
-  const steps = lobes * 2;
+function waxBlob(r, jitter) {
+  const N = 18;
   const pts = [];
-  for (let i = 0; i < steps; i++) {
-    const a = (i / steps) * Math.PI * 2 - Math.PI / 2;
-    const rr = i % 2 === 0 ? r : r - depth;
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2;
+    const rr = r + Math.sin(i * 2.1) * jitter + Math.cos(i * 1.3) * (jitter * 0.55);
     pts.push([Math.cos(a) * rr, Math.sin(a) * rr]);
   }
-  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-  for (let i = 1; i < steps; i++) d += ` L ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
-  return d + " Z";
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} `;
+  for (let i = 0; i < N; i++) {
+    const p0 = pts[(i - 1 + N) % N], p1 = pts[i], p2 = pts[(i + 1) % N], p3 = pts[(i + 2) % N];
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += `C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)} `;
+  }
+  return d + "Z";
 }
-const WAX_OUTER = scallopPath(50, 10, 7);
-const WAX_INNER = scallopPath(44, 10, 5);
+const WAX_SHAPE = waxBlob(46, 3.2);
 
 function LaurelSeal({ className = "" }) {
-  const Flourish = ({ rot }) => (
-    <g transform={`rotate(${rot})`}>
-      <path className="seal-imprint" d="M-30 -4 C -22 -14 -10 -18 0 -18 C 10 -18 22 -14 30 -4 C 22 2 10 4 0 4 C -10 4 -22 2 -30 -4 Z" />
-      <path className="seal-imprint-hi" d="M-18 -8 C -10 -12 -4 -12 0 -12 C 4 -12 10 -12 18 -8" fill="none" stroke="#fbeebd" strokeWidth="1" opacity="0.5" />
+  const leaves = [
+    { x: 5, y: 32, r: -82 }, { x: 14, y: 22, r: -64 }, { x: 22, y: 8, r: -46 },
+    { x: 28, y: -8, r: -28 }, { x: 26, y: -22, r: -10 }, { x: 18, y: -32, r: 8 },
+  ];
+  const Branch = () => (
+    <g fill="none" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M0 36 C 16 28, 28 8, 22 -34" stroke="currentColor" />
+      {leaves.map((l, i) => (
+        <g key={i} transform={`translate(${l.x} ${l.y}) rotate(${l.r})`}>
+          <path d="M0 0 C 9 -2 14 -9 12 -18 C 5 -14 1 -8 0 0 Z" fill="currentColor" stroke="none" />
+        </g>
+      ))}
+    </g>
+  );
+  const Wreath = () => (
+    <g transform="translate(0 2)">
+      <Branch />
+      <g transform="scale(-1,1)"><Branch /></g>
     </g>
   );
   return (
     <svg className={`laurel-seal ${className}`} viewBox="-62 -62 124 124" aria-hidden="true">
       <defs>
-        <radialGradient id="waxGold" cx="38%" cy="30%" r="78%">
-          <stop offset="0%" stopColor="#fff4cc" />
-          <stop offset="22%" stopColor="#fbeebd" />
-          <stop offset="50%" stopColor="#e8c46a" />
-          <stop offset="74%" stopColor="#c99a3d" />
-          <stop offset="92%" stopColor="#9a7424" />
-          <stop offset="100%" stopColor="#6b4a14" />
+        <radialGradient id="waxChampagne" cx="36%" cy="28%" r="80%">
+          <stop offset="0%" stopColor="#f5efe2" />
+          <stop offset="25%" stopColor="#e8dcc8" />
+          <stop offset="55%" stopColor="#d4c4a8" />
+          <stop offset="80%" stopColor="#c4ad82" />
+          <stop offset="100%" stopColor="#a8926a" />
         </radialGradient>
-        <radialGradient id="waxBasin" cx="46%" cy="40%" r="55%">
-          <stop offset="0%" stopColor="#e8c46a" />
-          <stop offset="60%" stopColor="#c99a3d" />
-          <stop offset="100%" stopColor="#9a7424" />
+        <radialGradient id="waxBasin" cx="48%" cy="42%" r="58%">
+          <stop offset="0%" stopColor="#ddd0b8" />
+          <stop offset="70%" stopColor="#c9b896" />
+          <stop offset="100%" stopColor="#b8a07a" />
         </radialGradient>
-        <radialGradient id="waxSheen" cx="30%" cy="22%" r="38%">
-          <stop offset="0%" stopColor="#fff4cc" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#fff4cc" stopOpacity="0" />
+        <radialGradient id="waxSheen" cx="32%" cy="24%" r="40%">
+          <stop offset="0%" stopColor="#fffaf2" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#fffaf2" stopOpacity="0" />
         </radialGradient>
         <filter id="waxDrop" x="-40%" y="-40%" width="180%" height="180%">
-          <feDropShadow dx="0" dy="2.4" stdDeviation="2.6" floodColor="#6b4a14" floodOpacity="0.5" />
+          <feDropShadow dx="0" dy="2.2" stdDeviation="2.4" floodColor="#8a7558" floodOpacity="0.45" />
         </filter>
         <filter id="waxGrain" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" result="n" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" result="n" />
           <feColorMatrix in="n" type="saturate" values="0" />
-          <feComponentTransfer><feFuncA type="linear" slope="0.18" /></feComponentTransfer>
+          <feComponentTransfer><feFuncA type="linear" slope="0.14" /></feComponentTransfer>
           <feComposite operator="in" in2="SourceGraphic" />
         </filter>
-        <clipPath id="waxClip"><path d={WAX_OUTER} /></clipPath>
+        <clipPath id="waxClip"><path d={WAX_SHAPE} /></clipPath>
       </defs>
 
-      {/* wax drips */}
-      <ellipse cx="-16" cy="48" rx="6" ry="8" fill="url(#waxGold)" filter="url(#waxDrop)" />
-      <ellipse cx="22" cy="46" rx="4" ry="6" fill="url(#waxGold)" filter="url(#waxDrop)" opacity="0.92" />
+      <ellipse cx="-12" cy="44" rx="5" ry="7" fill="url(#waxChampagne)" filter="url(#waxDrop)" opacity="0.9" />
+      <ellipse cx="18" cy="43" rx="4" ry="5.5" fill="url(#waxChampagne)" filter="url(#waxDrop)" opacity="0.85" />
 
-      {/* scalloped wax body */}
-      <path d={WAX_OUTER} fill="url(#waxGold)" filter="url(#waxDrop)" />
-      <path d={WAX_OUTER} fill="none" stroke="#9a7424" strokeWidth="1.4" opacity="0.35" />
+      <path d={WAX_SHAPE} fill="url(#waxChampagne)" filter="url(#waxDrop)" />
+      <path d={WAX_SHAPE} fill="none" stroke="#b8a07a" strokeWidth="1.3" opacity="0.4" />
 
-      {/* pressed medallion */}
-      <path d={WAX_INNER} fill="url(#waxBasin)" opacity="0.95" />
-      <circle r="34" fill="none" stroke="#c99a3d" strokeWidth="1.2" opacity="0.55" />
-      <circle r="31" fill="none" stroke="#fbeebd" strokeWidth="0.8" opacity="0.35" />
+      <circle r="36" fill="url(#waxBasin)" />
+      <circle r="36" fill="none" stroke="#a8926a" strokeWidth="1" opacity="0.35" />
 
-      {/* baroque corner flourishes */}
-      <Flourish rot={0} />
-      <Flourish rot={90} />
-      <Flourish rot={180} />
-      <Flourish rot={270} />
+      <g className="seal-wreath-hi" style={{ transform: "translate(0.6px, 0.8px)" }}><Wreath /></g>
+      <g className="seal-wreath" style={{ transform: "translate(-0.4px, -0.5px)" }}><Wreath /></g>
 
-      {/* interlocking rings */}
-      <g fill="none" stroke="#9a7424" strokeWidth="1.5" opacity="0.85">
-        <ellipse cx="-7" cy="-10" rx="9" ry="9" transform="rotate(-22 -7 -10)" />
-        <ellipse cx="7" cy="-10" rx="9" ry="9" transform="rotate(22 7 -10)" />
-      </g>
-
-      {/* monogram */}
-      <text x="0" y="14" textAnchor="middle" className="seal-mono">Е&amp;А</text>
-
-      {/* wax texture + highlight */}
       <g clipPath="url(#waxClip)">
-        <rect x="-62" y="-62" width="124" height="124" fill="#6b4a14" filter="url(#waxGrain)" style={{ mixBlendMode: "multiply" }} />
-        <ellipse cx="-12" cy="-14" rx="24" ry="17" fill="url(#waxSheen)" />
+        <rect x="-62" y="-62" width="124" height="124" fill="#8a7558" filter="url(#waxGrain)" style={{ mixBlendMode: "multiply" }} />
+        <ellipse cx="-10" cy="-12" rx="22" ry="16" fill="url(#waxSheen)" />
       </g>
     </svg>
   );

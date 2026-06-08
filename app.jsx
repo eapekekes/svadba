@@ -4,35 +4,26 @@
 const { LaurelSeal } = window;
 const { useState: aS, useEffect: aE } = React;
 
-/* ---------- Intro: portrait envelope, right flap; letter slides out ----------
-   Click the seal → right flap opens, the invitation card emerges
-   horizontally, then expands and fades into the site.                    */
+/* ---------- Intro: classic envelope — top flap + wax seal (lovellink-style) ----------
+   Layers: back → card → front pocket → top flap + seal.                    */
 function Intro({ onOpen }) {
-  const [phase, setPhase] = aS("idle"); // idle -> opening -> gone
-  const [slotOpen, setSlotOpen] = aS(false);
+  const [phase, setPhase] = aS("idle");
 
   const open = () => {
     if (phase !== "idle") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setPhase("opening");
-    if (reduce) {
-      setSlotOpen(true);
-      setTimeout(() => { setPhase("gone"); onOpen(); }, 500);
-      return;
-    }
-    setTimeout(() => setSlotOpen(true), 720);
-    setTimeout(() => { setPhase("gone"); setSlotOpen(false); onOpen(); }, 2800);
+    setTimeout(() => { setPhase("gone"); onOpen(); }, reduce ? 450 : 2700);
   };
 
   return (
     <div className={`intro ${phase === "opening" ? "opening" : ""} ${phase === "gone" ? "gone" : ""}`}>
       <div className="env-stage">
-        <div className="env-wrap env-wrap--portrait">
-          <div className="env-back"></div>
+        <div className="env">
+          <div className="env__back" aria-hidden="true" />
 
-          {/* letter lives inside a clipped slot — emerges only through the opening */}
-          <div className={`env-letter-slot${slotOpen ? " open" : ""}`}>
-            <div className="env-letter">
+          <div className="env__cavity" aria-hidden="true">
+            <div className="env__card">
               <div className="letter-inner">
                 <span className="lt-corner tl"></span><span className="lt-corner tr"></span>
                 <span className="lt-corner bl"></span><span className="lt-corner br"></span>
@@ -44,18 +35,16 @@ function Intro({ onOpen }) {
             </div>
           </div>
 
-          {/* front pocket — left side with V-seam */}
-          <div className="env-front"></div>
-          {/* right side flap that opens */}
-          <div className="env-flap"></div>
-
-          <button className="seal-btn" onClick={open} aria-label="Открыть приглашение">
-            <LaurelSeal />
-          </button>
+          <div className="env__front" aria-hidden="true" />
+          <div className="env__flap">
+            <span className="env__flap-label" aria-hidden="true">нажмите на печать</span>
+            <button className="env__seal" onClick={open} aria-label="Открыть приглашение">
+              <LaurelSeal />
+            </button>
+          </div>
         </div>
       </div>
-      <span className="env-hint">нажмите на печать</span>
-      <div className="env-paper-grain"></div>
+      <div className="env-paper-grain" aria-hidden="true" />
     </div>
   );
 }
