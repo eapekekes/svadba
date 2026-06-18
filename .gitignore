@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+.image-slots.state.json
+explore/
+uploads/
+assets/README.md
