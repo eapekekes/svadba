@@ -13,47 +13,52 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&amp;family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=PT+Sans:wght@400;700&amp;family=Marck+Script&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet">
   <script src="./image-slot.js"></script>
   <style>
-    body { margin:0; background:#cdbfa8; font-family:'PT Sans',sans-serif; }
+    body { margin:0; background:#cdbfa8; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; }
     *{ box-sizing:border-box; }
     .field:focus{ outline:none; border-color:#f4ede1 !important; }
     ::placeholder{ color:rgba(244,237,225,.45); }
     @keyframes chandelierSwing{0%{transform:rotate(-2.1deg)}50%{transform:rotate(2.1deg)}100%{transform:rotate(-2.1deg)}}
+    @keyframes sealPulse{0%{box-shadow:0 0 0 0 rgba(122,18,15,.40)}70%{box-shadow:0 0 0 20px rgba(122,18,15,0)}100%{box-shadow:0 0 0 0 rgba(122,18,15,0)}}
+    @keyframes inkReveal{from{clip-path:inset(0 100% -18% 0)}to{clip-path:inset(0 0 -18% 0)}}
+    .ink-write{animation:inkReveal 2.5s cubic-bezier(.55,.05,.35,1) forwards}
   </style>
 </helmet>
 
 <div style="max-width:480px; margin:0 auto; background:#f4ede1; color:#7a120f; overflow:hidden; box-shadow:0 0 60px rgba(60,20,10,.25);">
 
   <!-- ===================== ENVELOPE INTRO ===================== -->
-  <div id="env-overlay" onClick="{{ openEnvelope }}" role="button" aria-label="Открыть приглашение" style="position:fixed; top:0; bottom:0; left:50%; transform:translateX(-50%); width:min(480px,100vw); z-index:99999; overflow:hidden; cursor:pointer; background:#f6ecd9;">
-    <!-- left half -->
-    <div id="env-left" style="position:absolute; top:0; bottom:0; left:0; width:50%; overflow:hidden; transition:transform 1.15s cubic-bezier(.55,0,.2,1); box-shadow:2px 0 14px rgba(90,60,20,.18); z-index:2;">
-      <img src="assets/envelope-kl.png" alt="" style="position:absolute; top:0; left:0; width:200%; height:100%; object-fit:cover;">
+  <div id="env-overlay" onClick="{{ openEnvelope }}" role="button" aria-label="Открыть приглашение" style="position:fixed; top:0; bottom:0; left:50%; transform:translateX(-50%); width:min(480px,100vw); z-index:99999; overflow:hidden; cursor:pointer; background:#fdfdfb; display:flex; align-items:center; justify-content:center; transition:opacity .9s ease;">
+    <div id="env-card" style="position:relative; width:100%;">
+      <div id="env-left" style="position:absolute; inset:0; clip-path:polygon(0% 0%, 9% 0%, 66% 47%, 9% 100%, 0% 100%); transition:transform 1.15s cubic-bezier(.7,0,.18,1); will-change:transform;">
+        <img src="assets/envelope-cover.png" alt="" style="display:block; width:100%; height:auto;">
+      </div>
+      <div id="env-right" style="position:absolute; inset:0; clip-path:polygon(9% 0%, 100% 0%, 100% 100%, 9% 100%, 66% 47%); transition:transform 1.15s cubic-bezier(.7,0,.18,1); will-change:transform; box-shadow:-12px 0 26px rgba(60,30,20,.0);">
+        <img src="assets/envelope-cover.png" alt="" style="display:block; width:100%; height:auto;">
+        <div id="env-seal-ring" style="position:absolute; left:66.3%; top:46.8%; width:25.3%; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; box-shadow:0 0 0 0 rgba(122,18,15,.42); animation:sealPulse 2.4s ease-out infinite; pointer-events:none;"></div>
+      </div>
+      <img src="assets/envelope-cover.png" alt="" aria-hidden="true" style="display:block; width:100%; height:auto; visibility:hidden;">
     </div>
-    <!-- right half -->
-    <div id="env-right" style="position:absolute; top:0; bottom:0; right:0; width:50%; overflow:hidden; transition:transform 1.15s cubic-bezier(.55,0,.2,1); box-shadow:-2px 0 14px rgba(90,60,20,.18); z-index:2;">
-      <img src="assets/envelope-kl.png" alt="" style="position:absolute; top:0; left:-100%; width:200%; height:100%; object-fit:cover;">
-    </div>
-    <!-- hint -->
-    <div id="env-hint" style="position:absolute; left:0; right:0; bottom:max(40px,7vh); text-align:center; z-index:5; pointer-events:none; transition:opacity .4s ease;">
-      <div style="font-family:'Great Vibes',cursive; font-size:26px; color:#7a120f; text-shadow:0 1px 4px rgba(255,248,235,.7);">нажмите, чтобы открыть</div>
+    <div id="env-phrase" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .6s ease; pointer-events:none;">
+      <div id="env-ink" style="font-family:'Great Vibes',cursive; font-weight:400; font-size:62px; line-height:1.1; color:#7a120f; white-space:nowrap; clip-path:inset(0 100% -18% 0);">Вы&nbsp;приглашены</div>
     </div>
   </div>
 
 
+  <div id="content-scale" style="width:480px; transform-origin:top center;">
   <!-- ===================== HERO ===================== -->
   <section id="hero-sec" data-screen-label="Hero" style="position:relative; width:100%;">
     
     <div style="position: absolute; top: 350px; left: 235px; transform: translate(-50%,-50%); width: 297px; text-align: center; display: flex; flex-direction: column; align-items: center; height: 119px">
       
-      <div style="font-family: 'Playfair Display',serif; font-weight: 900; font-size: 40px; line-height: 1.06; align-self: flex-start">Егор</div><div style="font-family: 'Great Vibes',cursive; font-size: 40px; line-height: 1.06; margin: 1px 0; color: #8a1512; white-space: nowrap">Wedding day</div><div style="font-family: 'Playfair Display',serif; font-weight: 900; font-size: 40px; line-height: 1.06; align-self: flex-end; white-space: nowrap; width: 272px; height: 45px"><span style="font-family:'Great Vibes',cursive; font-weight:400; font-size:21px; vertical-align:4px; margin-right:6px;">and</span>Анастасия</div>
+      <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight: 900; font-size: 40px; line-height: 1.06; align-self: flex-start">Егор</div><div style="font-family: 'Great Vibes',cursive; font-size: 55px; line-height: 1.06; margin: 1px 0; color: #8a1512; white-space: nowrap">Wedding day</div><div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight: 900; font-size: 40px; line-height: 1.06; align-self: flex-end; white-space: nowrap; width: 272px; height: 45px"><span style="font-family: 'Great Vibes',cursive; font-weight: 400; font-size: 35px; vertical-align: 4px; margin-right: 6px">and</span>Анастасия</div>
       
     </div>
     <div style="position: absolute; top: 469px; left: 240px; transform: translateX(-50%); width: 243px; text-align: center; height: 118px">
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:15px; letter-spacing:.2px;">Ничего не планируйте на</div>
-      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; letter-spacing:1px; margin:5px 0; display:flex; justify-content:center; align-items:baseline; gap:8px;">
+      <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight: 700; font-size: 17px; letter-spacing: .2px">Ничего не планируйте на</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; letter-spacing:1px; margin:5px 0; display:flex; justify-content:center; align-items:baseline; gap:8px;">
         <span>11</span><span style="font-weight:400; opacity:.5; font-size:26px;">|</span><span>10</span><span style="font-weight:400; opacity:.5; font-size:26px;">|</span><span>2026</span>
       </div>
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:16px;">Потому что мы женимся!</div>
+      <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight: 700; font-size: 17px">Потому что мы женимся!</div>
     </div>
   <img src="assets/hero-frame-clean.png" alt="" style="display:block; width:100%; height:auto;"><img src="assets/hero-chandelier.png" alt="" style="position:absolute; left:28.93%; top:5.75%; width:42.35%; height:auto; transform-origin:50% 3%; animation:chandelierSwing 5.5s ease-in-out infinite; z-index:1;"></section>
 
@@ -66,24 +71,24 @@
 
     <image-slot id="couple-photo" shape="rect" placeholder="Перетащите ваше фото" style="display: block; width: 430px; height: 195px; border: 1.5px solid #7a120f; padding: 5px; background: #f4ede1"></image-slot><div style="position: relative; margin-top: 18px; min-height: 124px; width: 423px;">
       <img src="assets/candelabra.png" alt="" style="position: absolute; top: -36px; width: 203px; height: 273px; z-index: 3; filter: drop-shadow(0 3px 8px rgba(116,16,15,.14)); left: 218px">
-      <h2 style="position:relative; z-index:1; font-family:'Playfair Display',serif; font-style:italic; font-weight:700; font-size:38px; line-height:1.06; margin:0; max-width:54%;">Дорогие родные и&nbsp;близкие!</h2>
+      <h2 style="position: relative; z-index: 1; font-family: Great Vibes; font-style: italic; font-weight: 400; font-size: 60px; line-height: 0.9; margin: 0; max-width: 54%">Дорогие родные и&nbsp;близкие!</h2>
     </div>
 
     
-    <p style="font-family:'PT Sans',sans-serif; font-size:15px; line-height:1.65; margin:14px 0 0; max-width:56%;">Этот день откроет новую главу в нашей жизни, и&nbsp;мы хотим разделить его с&nbsp;вами.</p><p style="font-family:'PT Sans',sans-serif; font-size:15px; line-height:1.65; margin:18px 0 0; max-width:92%;">Ваше присутствие, искренние улыбки и&nbsp;добрые пожелания сделают этот день поистине незабываемым и&nbsp;волшебным.</p>
+    <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:15px; line-height:1.65; margin:14px 0 0; max-width:56%;">Этот день откроет новую главу в нашей жизни, и&nbsp;мы хотим разделить его с&nbsp;вами.</p><p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:15px; line-height:1.65; margin:18px 0 0; max-width:92%;">Ваше присутствие, искренние улыбки и&nbsp;добрые пожелания сделают этот день поистине незабываемым и&nbsp;волшебным.</p>
 
     <!-- Calendar -->
     <div style="text-align:center; margin:40px 0 4px;">
-      <div style="font-family:'PT Serif',serif; font-weight:700; font-size:18px; letter-spacing:3px;">ОКТЯБРЬ 2026</div>
-      <div style="display:flex; justify-content:center; gap:18px; margin-top:18px; font-family:'PT Sans',sans-serif; font-size:13px; letter-spacing:2px;">
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:18px; letter-spacing:3px;">ОКТЯБРЬ 2026</div>
+      <div style="display:flex; justify-content:center; gap:18px; margin-top:18px; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; letter-spacing:2px;">
         <span style="width:36px; text-align:center;">ЧТ</span><span style="width:36px; text-align:center;">ПТ</span><span style="width:36px; text-align:center;">СБ</span><span style="width:36px; text-align:center;">ВС</span><span style="width:36px; text-align:center;">ПН</span>
       </div>
       <div style="display:flex; justify-content:center; gap:18px; margin-top:12px;">
-        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:21px;">08</span>
-        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:21px;">09</span>
-        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:21px;">10</span>
-        <span style="width:36px; height:36px; display:flex; align-items:center; justify-content:center;"><span style="width:10px; height:10px; border-radius:50%; background:#7a120f;"></span></span>
-        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:21px;">12</span>
+        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:21px;">08</span>
+        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:21px;">09</span>
+        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:21px;">10</span>
+        <span id="cal-11" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center;"></span>
+        <span style="width:36px; height:36px; border:1px solid #7a120f; display:flex; align-items:center; justify-content:center; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:21px;">12</span>
       </div>
     </div>
   </section><section id="tl-sec" data-screen-label="Timeline" style="position:relative; height:660px; margin-top:6px;">
@@ -91,30 +96,30 @@
       
       <path id="tl-path" d="M240,4 C240,70 110,95 150,200 C180,285 250,275 220,360 C200,415 90,430 150,520 C200,595 300,560 305,648" fill="none" stroke="#7a120f" stroke-width="2"></path><circle cx="305" cy="648" r="6" fill="#7a120f"></circle>
     </svg>
-    <div id="tl-heart" style="position:absolute; left:135px; top:330px; width:30px; transition:left .1s linear, top .1s linear; will-change:left,top; z-index:2;">
+    <div id="tl-heart" style="position:absolute; left:135px; top:330px; width:46px; transition:left .1s linear, top .1s linear; will-change:left,top; z-index:2;">
       <svg viewBox="0 0 100 94" style="display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 1px 2px rgba(116,16,15,.3));">
         
-      <path d="M50,91 C14,62 4,43 4,26 C4,11 14,2 28,2 C39,2 47,11 50,21 C53,11 61,2 72,2 C86,2 96,11 96,26 C96,43 86,62 50,91 Z" fill="#9e1a16"></path></svg>
+      <path d="M50,91 C14,62 4,43 4,26 C4,11 14,2 28,2 C39,2 47,11 50,21 C53,11 61,2 72,2 C86,2 96,11 96,26 C96,43 86,62 50,91 Z" fill="#9e1a16"></path><text x="50" y="43" text-anchor="middle" dominant-baseline="middle" fill="#f4ede1" font-family="'Sitka','Sitka Text',Cambria,Georgia,serif" font-weight="700" font-size="42">11</text></svg>
     </div>
     <div style="position:absolute; left:16px; top:120px; width:185px;">
       
-      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1;">13:30</div><div style="font-family:'PT Serif',serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ЗАГС</div>
-      <div style="font-family:'PT Sans',sans-serif; font-size:13px; line-height:1.5; margin-top:10px;">Официальная регистрация — самый трепетный момент этого дня</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; line-height:1;">13:00</div><div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ЗАГС</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; line-height:1.5; margin-top:10px;">Официальная регистрация — самый трепетный момент этого дня</div>
     </div>
     <div style="position:absolute; right:16px; top:248px; width:178px; text-align:left;">
-      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1;">14:00</div>
-      <div style="font-family:'PT Serif',serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ФУРШЕТ</div>
-      <div style="font-family:'PT Sans',sans-serif; font-size:13px; line-height:1.5; margin-top:10px;">Встречаемся, поздравляем и&nbsp;наслаждаемся лёгкими закусками</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; line-height:1;">14:00</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ФУРШЕТ</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; line-height:1.5; margin-top:10px;">Встречаемся, поздравляем и&nbsp;наслаждаемся лёгкими закусками</div>
     </div>
     <div style="position:absolute; left:16px; top:432px; width:185px;">
-      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1;">15:30</div>
-      <div style="font-family:'PT Serif',serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">БАНКЕТ</div>
-      <div style="font-family:'PT Sans',sans-serif; font-size:13px; line-height:1.5; margin-top:10px;">Танцы, веселье и&nbsp;чудесная атмосфера!</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; line-height:1;">15:30</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">БАНКЕТ</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; line-height:1.5; margin-top:10px;">Танцы, веселье и&nbsp;чудесная атмосфера!</div>
     </div>
     <div style="position:absolute; left:120px; top:560px; width:200px; text-align:center;">
-      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1;">21:30</div>
-      <div style="font-family:'PT Serif',serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ЗАВЕРШЕНИЕ ВЕЧЕРА</div>
-      <div style="font-family:'PT Sans',sans-serif; font-size:13px; line-height:1.5; margin-top:10px;">Будем благодарны вам за&nbsp;счастливые моменты</div>
+      <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight: 700; font-size: 30px; line-height: 1; text-align: left">21:30</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ЗАВЕРШЕНИЕ ВЕЧЕРА</div>
+      <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-size: 13px; line-height: 1.5; margin-top: 10px; text-align: left">Будем благодарны вам за&nbsp;счастливые моменты</div>
     </div>
   </section>
 
@@ -122,41 +127,67 @@
   <section data-screen-label="Location" style="position:relative; padding:18px 30px 46px;">
     
     <div style="text-align: right; position: relative">
-      <div style="font-family:'Marck Script',cursive; font-size:58px; line-height:1; min-height:152px; display:flex; align-items:flex-start; justify-content:flex-end; padding-top:38px;">Локация</div>
-      <p style="font-family:'PT Serif',serif; font-size:19px; line-height:1.55; margin:6px 0 0;">Наше торжество пройдёт в&nbsp;пространстве <a href="https://21kult.ru/" target="_blank" rel="noopener" style="color:#7a120f; text-decoration:underline; text-underline-offset:3px;">«21.КУЛЬТ»</a>, в&nbsp;особняке&nbsp;Хлудова XIX&nbsp;века, по&nbsp;адресу:</p>
-      <p style="font-family:'PT Serif',serif; font-weight:700; font-size:19px; line-height:1.5; margin:20px 0 0;">г.&nbsp;Москва,<br>ул.&nbsp;Новая&nbsp;Басманная,&nbsp;19&nbsp;стр.&nbsp;1</p>
+      <div style="font-family: Great Vibes; font-size: 70px; line-height: 1; min-height: 152px; display: flex; align-items: flex-start; justify-content: flex-end; padding-top: 38px">Локация</div>
+      <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:19px; line-height:1.55; margin:6px 0 0;">Наше торжество пройдёт в&nbsp;пространстве <a href="https://21kult.ru/" target="_blank" rel="noopener" style="color:#7a120f; text-decoration:underline; text-underline-offset:3px;">«21.КУЛЬТ»</a>, в&nbsp;особняке&nbsp;Хлудова XIX&nbsp;века, по&nbsp;адресу:</p>
+      <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:19px; line-height:1.5; margin:20px 0 0;">г.&nbsp;Москва,<br>ул.&nbsp;Новая&nbsp;Басманная,&nbsp;19&nbsp;стр.&nbsp;1</p>
       <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:24px;">
-        <a href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%20%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%91%D0%B0%D1%81%D0%BC%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F%2019%20%D1%81%D1%82%D1%80%201%20%D0%9E%D1%81%D0%BE%D0%B1%D0%BD%D1%8F%D0%BA%20%D0%A5%D0%BB%D1%83%D0%B4%D0%BE%D0%B2%D0%B0" target="_blank" rel="noopener" style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; color:#7a120f; text-decoration:none; border:1px solid #7a120f; padding:11px 16px;" style-hover="background:#7a120f; color:#f4ede1;">Яндекс&nbsp;Карты</a>
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=%D0%9E%D1%81%D0%BE%D0%B1%D0%BD%D1%8F%D0%BA%20%D0%A5%D0%BB%D1%83%D0%B4%D0%BE%D0%B2%D0%B0%20%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%91%D0%B0%D1%81%D0%BC%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F%2019%20%D1%81%D1%82%D1%80%201%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0" target="_blank" rel="noopener" style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; color:#7a120f; text-decoration:none; border:1px solid #7a120f; padding:11px 16px;" style-hover="background:#7a120f; color:#f4ede1;">Google&nbsp;Карты</a>
+        <a href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%20%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%91%D0%B0%D1%81%D0%BC%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F%2019%20%D1%81%D1%82%D1%80%201%20%D0%9E%D1%81%D0%BE%D0%B1%D0%BD%D1%8F%D0%BA%20%D0%A5%D0%BB%D1%83%D0%B4%D0%BE%D0%B2%D0%B0" target="_blank" rel="noopener" style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:13px; letter-spacing:1px; color:#7a120f; text-decoration:none; border:1px solid #7a120f; padding:11px 16px;" style-hover="background:#7a120f; color:#f4ede1;">Яндекс&nbsp;Карты</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=%D0%9E%D1%81%D0%BE%D0%B1%D0%BD%D1%8F%D0%BA%20%D0%A5%D0%BB%D1%83%D0%B4%D0%BE%D0%B2%D0%B0%20%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%91%D0%B0%D1%81%D0%BC%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F%2019%20%D1%81%D1%82%D1%80%201%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0" target="_blank" rel="noopener" style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:13px; letter-spacing:1px; color:#7a120f; text-decoration:none; border:1px solid #7a120f; padding:11px 16px;" style-hover="background:#7a120f; color:#f4ede1;">Google&nbsp;Карты</a>
       </div>
     <img src="assets/chandelier-candles.png" alt="" style="position: absolute; left: -68px; top: 132px; width: 168px; height: auto; opacity: .95"></div>
+  </section>
+
+  <!-- ===================== ПРАВИЛА ОСОБНЯКА ===================== -->
+  <section data-screen-label="Rules" style="position:relative; padding:44px 30px 48px; text-align:center; color:#7a120f;">
+    <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:12px; letter-spacing:4px; color:#7a120f;">ОСОБНЯК С ХАРАКТЕРОМ</div>
+    <h2 style="font-family: Great Vibes; font-style: italic; font-weight: 400; font-size: 60px; margin: 8px 0 0">Несколько просьб</h2>
+    <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:14.5px; line-height:1.7; margin:16px auto 0; max-width:90%;">Наш особняк&nbsp;— пространство с&nbsp;историей, и&nbsp;нам хочется сберечь его первозданным. Поэтому в&nbsp;его стенах строго не&nbsp;допускается:</p>
+    <div style="margin:22px auto 0; max-width:312px; text-align:left; border-top:1px solid rgba(122,18,15,.32); border-bottom:1px solid rgba(122,18,15,.32);">
+      <div style="display:flex; align-items:flex-start; gap:12px; padding:13px 2px; border-bottom:1px solid rgba(122,18,15,.16);">
+        <span style="flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:#7a120f; margin-top:7px;"></span>
+        <span style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:14px; line-height:1.5;">открытый огонь&nbsp;— включая свечи любого вида</span>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px; padding:13px 2px; border-bottom:1px solid rgba(122,18,15,.16);">
+        <span style="flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:#7a120f; margin-top:7px;"></span>
+        <span style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:14px; line-height:1.5;">холодные фонтаны, хлопушки и&nbsp;конфетти</span>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px; padding:13px 2px; border-bottom:1px solid rgba(122,18,15,.16);">
+        <span style="flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:#7a120f; margin-top:7px;"></span>
+        <span style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:14px; line-height:1.5;">кальяны</span>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px; padding:13px 2px;">
+        <span style="flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:#7a120f; margin-top:7px;"></span>
+        <span style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:14px; line-height:1.5;">курение&nbsp;— в&nbsp;том числе электронные сигареты и&nbsp;любые курительные устройства</span>
+      </div>
+    </div>
+    <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:14px; line-height:1.7; margin:20px auto 0; max-width:90%;">За&nbsp;нарушение администрация особняка взимает штраф <b>от&nbsp;30&nbsp;000&nbsp;₽</b> за&nbsp;каждый случай. Но&nbsp;мы уверены&nbsp;— вечер пройдёт легко, и&nbsp;пусть единственный огонь в&nbsp;этот день будет в&nbsp;наших сердцах.</p>
   </section>
 
   <!-- ===================== ДРЕСС-КОД ===================== -->
   <section data-screen-label="Dress code" style="position:relative; padding:14px 16px 34px;">
     <div style="position:relative; width:100%; max-width:430px; margin:0 auto;">
       <img src="assets/dress-frame.png" alt="" style="display:block; width:100%; height:auto;">
-      <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 21% 16% 16%; width: 343px; height: 581px; left: 44px; top: -2px">
-        <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:5px; white-space:nowrap;">ДРЕСС-КОД</div>
-        <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:24px; margin-top:8px; line-height:1.1;">Только одна просьба</div>
-        <div style="display:flex; align-items:center; gap:8px; margin:12px 0;"><span style="width:32px; height:1px; background:#7a120f;"></span><span style="width:5px; height:5px; border-radius:50%; background:#7a120f;"></span><span style="width:32px; height:1px; background:#7a120f;"></span></div>
-        <p style="font-family:'PT Serif',serif; font-style:italic; font-size:12.5px; line-height:1.6; margin:0;">Строгой палитры у&nbsp;нас нет — выбирайте наряд, в&nbsp;котором вам красиво, удобно и&nbsp;празднично. Любые цвета, которые вы&nbsp;любите.</p>
+      <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 15% 19% 14%;">
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:11px; letter-spacing:5px; white-space:nowrap;">ДРЕСС-КОД</div>
+        
+        <div style="font-family: Great Vibes; font-weight: 400; font-size: 40px; margin: 6px 0 4px; line-height: 1.0;">Только одна просьба</div><div style="display:flex; align-items:center; gap:8px; margin:12px 0;"><span style="width:32px; height:1px; background:#7a120f;"></span><span style="width:5px; height:5px; border-radius:50%; background:#7a120f;"></span><span style="width:32px; height:1px; background:#7a120f;"></span></div>
+        <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:12.5px; line-height:1.6; margin:0;">Строгой палитры у&nbsp;нас нет — выбирайте наряд, в&nbsp;котором вам красиво, удобно и&nbsp;празднично. Любые цвета, которые вы&nbsp;любите.</p>
         <div style="position:relative; width:56px; height:56px; border-radius:50%; margin:14px 0 7px; background:radial-gradient(circle at 35% 28%, #ffffff, #ffffff 42%, #ece7dc 100%); box-shadow:0 5px 11px rgba(90,30,20,.28), inset -3px -4px 8px rgba(150,138,118,.4), inset 2px 2px 5px rgba(255,255,255,.95);">
           <span style="position:absolute; left:50%; top:50%; width:70px; height:2px; background:#7a120f; border-radius:2px; transform:translate(-50%,-50%) rotate(-45deg);"></span>
         </div>
-        <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:10px; letter-spacing:3px;">БЕЛЫЙ</div>
-        <div style="font-family:'Playfair Display',serif; font-style:italic; font-weight:700; font-size:22px; margin-top:12px; line-height:1.12;">Белый оставим невесте</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:10px; letter-spacing:3px;">БЕЛЫЙ</div>
+        <div style="font-family: 'Sitka','Sitka Text',Cambria,Georgia,serif; font-style: italic; font-weight: 400; font-size: 22px; margin-top: 12px; line-height: 1.12">Белый оставим невесте</div>
       </div>
     </div>
   </section>
 
   <!-- ===================== О ПОДАРКАХ ===================== -->
   <section data-screen-label="Gifts" style="padding:6px 34px 46px; text-align:center;">
-    <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:12px; letter-spacing:4px;">ПОЖЕЛАНИЯ</div>
-    <h2 style="font-family:'Playfair Display',serif; font-weight:700; font-size:34px; margin:8px 0 0;">О подарках</h2>
+    <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:12px; letter-spacing:4px;">ПОЖЕЛАНИЯ</div>
+    <h2 style="font-family: Great Vibes; font-weight: 400; font-size: 60px; margin: 8px 0 0">О подарках</h2>
     <img src="assets/gift.png" alt="" style="display:block; width:260px; max-width:80%; height:auto; margin:20px auto 18px;">
-    <p style="font-family:'PT Serif',serif; font-style:italic; font-size:16px; line-height:1.7; margin:22px auto 0; max-width:86%;">Самый дорогой подарок для нас — это вы рядом в&nbsp;этот день. Дарить цветы и&nbsp;букеты, пожалуйста, не&nbsp;нужно.</p>
-    <p style="font-family:'PT Serif',serif; font-style:italic; font-weight:700; font-size:16px; line-height:1.7; margin:18px auto 0; max-width:88%;">Если же вам захочется нас порадовать, мы&nbsp;будем благодарны за&nbsp;вклад деньгами в&nbsp;наше общее будущее и&nbsp;свадебное путешествие.</p>
+    <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:16px; line-height:1.7; margin:22px auto 0; max-width:86%;">Самый дорогой подарок для нас — это вы рядом в&nbsp;этот день. Дарить цветы и&nbsp;букеты, пожалуйста, не&nbsp;нужно.</p>
+    <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-weight:700; font-size:16px; line-height:1.7; margin:18px auto 0; max-width:88%;">Если же вам захочется нас порадовать, мы&nbsp;будем благодарны за&nbsp;вклад деньгами в&nbsp;наше общее будущее и&nbsp;свадебное путешествие.</p>
   </section>
 
   <!-- ===================== АНКЕТА (форма) ===================== -->
@@ -167,82 +198,83 @@
     
 
     <div style="text-align:center;">
-      <div style="font-family:'Marck Script',cursive; font-size:46px; line-height:1.08;">Пожалуйста,<br>заполните анкету</div>
-      <p style="font-family:'PT Sans',sans-serif; font-size:16px; line-height:1.5; margin:18px auto 0; max-width:90%;">Ответы помогут нам при организации торжества. Мы&nbsp;будем ждать от&nbsp;вас ответ до&nbsp;31/07.</p>
+      <div style="font-family: Great Vibes; font-size: 60px; line-height: 1.08">Пожалуйста,<br>заполните анкету</div>
+      <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; line-height:1.5; margin:18px auto 0; max-width:90%;">Ответы помогут нам при организации торжества. Мы&nbsp;будем ждать от&nbsp;вас ответ до&nbsp;31/07.</p>
     </div>
 
     <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
       <div style="margin-top:34px; padding:30px 24px; border:1px solid rgba(244,237,225,.4); text-align:center;">
-        <div style="font-family:'Marck Script',cursive; font-size:34px;">Спасибо!</div>
-        <p style="font-family:'PT Sans',sans-serif; font-size:15px; line-height:1.6; margin:8px 0 0;">Ваш ответ принят. Будем с&nbsp;нетерпением ждать встречи с&nbsp;вами!</p>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:34px;">Спасибо!</div>
+        <p style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:15px; line-height:1.6; margin:8px 0 0;">Ваш ответ принят. Будем с&nbsp;нетерпением ждать встречи с&nbsp;вами!</p>
       </div>
     </sc-if>
 
     <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
     <div style="margin-top:30px;">
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:20px; padding-bottom:14px; border-bottom:1px solid rgba(244,237,225,.3);">Присутствие на торжестве</div>
-      <label onClick="{{ pickYes }}" style="display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid rgba(244,237,225,.3); cursor:pointer; font-family:'PT Sans',sans-serif; font-size:16px;">
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:20px; padding-bottom:14px; border-bottom:1px solid rgba(244,237,225,.3);">Присутствие на торжестве</div>
+      <label onClick="{{ pickYes }}" style="display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid rgba(244,237,225,.3); cursor:pointer; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px;">
         <span style="width:18px; height:18px; border-radius:50%; border:1.5px solid #f4ede1; display:flex; align-items:center; justify-content:center; flex:0 0 auto;"><sc-if value="{{ attYes }}" hint-placeholder-val="{{ false }}"><span style="width:9px; height:9px; border-radius:50%; background:#f4ede1;"></span></sc-if></span>
         Я приду / Мы придём
       </label>
-      <label onClick="{{ pickNo }}" style="display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid rgba(244,237,225,.3); cursor:pointer; font-family:'PT Sans',sans-serif; font-size:16px;">
+      <label onClick="{{ pickNo }}" style="display:flex; align-items:center; gap:12px; padding:16px 0; border-bottom:1px solid rgba(244,237,225,.3); cursor:pointer; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px;">
         <span style="width:18px; height:18px; border-radius:50%; border:1.5px solid #f4ede1; display:flex; align-items:center; justify-content:center; flex:0 0 auto;"><sc-if value="{{ attNo }}" hint-placeholder-val="{{ false }}"><span style="width:9px; height:9px; border-radius:50%; background:#f4ede1;"></span></sc-if></span>
         Прийти не получится
       </label>
 
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:20px; margin-top:30px;">Ваше Имя и Фамилия</div>
-      <div style="font-family:'PT Serif',serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">Если вы придёте с&nbsp;парой или семьёй, внесите все имена</div>
-      <input class="field" value="{{ name }}" onInput="{{ onName }}" placeholder="Имя Фамилия" style="width:100%; margin-top:12px; background:transparent; border:none; border-bottom:1px solid rgba(244,237,225,.45); color:#f4ede1; font-family:'PT Sans',sans-serif; font-size:16px; padding:10px 2px;">
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:20px; margin-top:30px;">Ваше Имя и Фамилия</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">Если вы придёте с&nbsp;парой или семьёй, внесите все имена</div>
+      <input class="field" value="{{ name }}" onInput="{{ onName }}" placeholder="Имя Фамилия" style="width:100%; margin-top:12px; background:transparent; border:none; border-bottom:1px solid rgba(244,237,225,.45); color:#f4ede1; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; padding:10px 2px;">
 
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:20px; margin-top:32px; padding-bottom:14px; border-bottom:1px solid rgba(244,237,225,.3);">Предпочтения по напиткам</div>
-      <div style="font-family:'PT Serif',serif; font-style:italic; font-size:13px; opacity:.8; margin-top:12px;">Можно выбрать несколько вариантов</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:20px; margin-top:32px; padding-bottom:14px; border-bottom:1px solid rgba(244,237,225,.3);">Предпочтения по напиткам</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:12px;">Можно выбрать несколько вариантов</div>
       <div style="display:flex; flex-direction:column; gap:0; margin-top:6px; max-width:80%;">
         <sc-for list="{{ drinks }}" as="d" hint-placeholder-count="4">
-          <label onClick="{{ d.toggle }}" style="display:flex; align-items:center; gap:12px; padding:11px 0; cursor:pointer; font-family:'PT Sans',sans-serif; font-size:16px; white-space:nowrap;">
+          <label onClick="{{ d.toggle }}" style="display:flex; align-items:center; gap:12px; padding:11px 0; cursor:pointer; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; white-space:nowrap;">
             <span style="width:17px; height:17px; border:1.5px solid #f4ede1; display:flex; align-items:center; justify-content:center; flex:0 0 auto;"><sc-if value="{{ d.checked }}" hint-placeholder-val="{{ false }}"><span style="width:9px; height:9px; background:#f4ede1;"></span></sc-if></span>
             {{ d.label }}
           </label>
         </sc-for>
       </div>
 
-      <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:17px; margin-top:30px;">Есть ли у&nbsp;вас аллергия на&nbsp;какие-либо продукты?</div>
-      <div style="font-family:'PT Serif',serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">При аллергии оставьте поле пустым</div>
-      <input class="field" value="{{ allergy }}" onInput="{{ onAllergy }}" placeholder="Опишите, пожалуйста" style="width:100%; margin-top:12px; background:transparent; border:none; border-bottom:1px solid rgba(244,237,225,.45); color:#f4ede1; font-family:'PT Sans',sans-serif; font-size:16px; padding:10px 2px;">
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:17px; margin-top:30px;">Есть ли у&nbsp;вас аллергия на&nbsp;какие-либо продукты?</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">При аллергии оставьте поле пустым</div>
+      <input class="field" value="{{ allergy }}" onInput="{{ onAllergy }}" placeholder="Опишите, пожалуйста" style="width:100%; margin-top:12px; background:transparent; border:none; border-bottom:1px solid rgba(244,237,225,.45); color:#f4ede1; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; padding:10px 2px;">
 
-      <button onClick="{{ submit }}" style="display:block; width:100%; margin-top:36px; background:#f4ede1; color:#5e1313; border:none; padding:16px; font-family:'PT Sans',sans-serif; font-weight:700; font-size:16px; letter-spacing:1px; cursor:pointer;" style-hover="background:#fff;">Отправить</button>
-    <img src="assets/champagne.png" alt="" style="position: absolute; top: 471px; width: 258px; height: 370px; opacity: .9; left: 199px"></div>
+      <button onClick="{{ submit }}" style="display:block; width:100%; margin-top:36px; background:#f4ede1; color:#5e1313; border:none; padding:16px; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:16px; letter-spacing:1px; cursor:pointer;" style-hover="background:#fff;">Отправить</button>
+    <img src="assets/champagne.png" alt="" style="position: absolute; top: 533px; width: 258px; height: 370px; opacity: .9; left: 218px"></div>
     </sc-if>
   </section>
 
   <!-- ===================== ТАЙМЕР ===================== -->
   <section data-screen-label="Countdown" style="padding:46px 30px; text-align:center;">
-    <div style="font-family:'PT Sans',sans-serif; font-weight:700; font-size:12px; letter-spacing:4px;">ДО ПРАЗДНИКА ОСТАЛОСЬ</div>
+    <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:12px; letter-spacing:4px;">ДО ПРАЗДНИКА ОСТАЛОСЬ</div>
     <div style="display:flex; justify-content:center; gap:10px; margin-top:22px;">
       <div style="flex:1; max-width:84px; border:1px solid #7a120f; padding:14px 0;">
-        <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.d }}</div>
-        <div style="font-family:'PT Sans',sans-serif; font-size:11px; letter-spacing:2px; margin-top:6px;">ДНЕЙ</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.d }}</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:11px; letter-spacing:2px; margin-top:6px;">ДНЕЙ</div>
       </div>
       <div style="flex:1; max-width:84px; border:1px solid #7a120f; padding:14px 0;">
-        <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.h }}</div>
-        <div style="font-family:'PT Sans',sans-serif; font-size:11px; letter-spacing:2px; margin-top:6px;">ЧАСОВ</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.h }}</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:11px; letter-spacing:2px; margin-top:6px;">ЧАСОВ</div>
       </div>
       <div style="flex:1; max-width:84px; border:1px solid #7a120f; padding:14px 0;">
-        <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.m }}</div>
-        <div style="font-family:'PT Sans',sans-serif; font-size:11px; letter-spacing:2px; margin-top:6px;">МИНУТ</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.m }}</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:11px; letter-spacing:2px; margin-top:6px;">МИНУТ</div>
       </div>
       <div style="flex:1; max-width:84px; border:1px solid #7a120f; padding:14px 0;">
-        <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.s }}</div>
-        <div style="font-family:'PT Sans',sans-serif; font-size:11px; letter-spacing:2px; margin-top:6px;">СЕКУНД</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:38px; line-height:1;">{{ cd.s }}</div>
+        <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:11px; letter-spacing:2px; margin-top:6px;">СЕКУНД</div>
       </div>
     </div>
   </section>
 
   <!-- ===================== ЖДЁМ ВАС ===================== -->
   <section data-screen-label="Farewell" style="position:relative; padding:10px 0 0; text-align:center;">
-    <div style="font-family:'Marck Script',cursive; font-size:56px; line-height:.95;">Ждём вас,</div>
-    <div style="font-family:'Playfair Display',serif; font-style:italic; font-weight:700; font-size:42px; margin-top:-2px;">дорогие!</div>
+    <div style="font-family: Great Vibes; font-size: 60px; line-height: .95">Ждём вас,</div>
+    <div style="font-family: Great Vibes; font-style: italic; font-weight: 400; font-size: 60px; margin-top: -2px">дорогие!</div>
     <img src="assets/table.png" alt="" style="display:block; width:100%; max-width:100%; height:auto; margin:20px auto 0;">
   </section>
+  </div>
 
 </div>
 </x-dc>
@@ -268,55 +300,100 @@ class Component extends DCLogic {
     this._onScroll = () => this.updateHeart();
     window.addEventListener('scroll', this._onScroll, { passive: true });
     window.addEventListener('resize', this._onScroll);
+    this._applyScale = () => {
+      const el = document.getElementById('content-scale');
+      if (!el) return;
+      const vw = Math.min(window.innerWidth, 480);
+      el.style.zoom = (vw / 480).toString();
+    };
+    this._applyScale();
+    window.addEventListener('resize', this._applyScale);
     setTimeout(() => this.updateHeart(), 120);
     // lock scroll while the envelope intro is showing
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
+  }
+  componentDidUpdate() {
+    if (this._applyScale) this._applyScale();
   }
   openEnvelope() {
     const ov = document.getElementById('env-overlay');
     if (!ov || ov.dataset.open) return;
     ov.dataset.open = '1';
     ov.style.cursor = 'default';
+    const ring = document.getElementById('env-seal-ring');
     const left = document.getElementById('env-left');
     const right = document.getElementById('env-right');
-    const hint = document.getElementById('env-hint');
-    if (hint) hint.style.opacity = '0';
-    if (left) left.style.transform = 'translateX(-102%)';
-    if (right) right.style.transform = 'translateX(102%)';
+    const phrase = document.getElementById('env-phrase');
+    const ink = document.getElementById('env-ink');
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    setTimeout(() => { ov.style.transition = 'opacity .45s ease'; ov.style.opacity = '0'; }, 950);
-    setTimeout(() => { ov.style.display = 'none'; }, 1450);
+    if (ring) { ring.style.animation = 'none'; ring.style.transition = 'transform .25s ease, opacity .25s ease'; ring.style.transform = 'translate(-50%,-50%) scale(.86)'; ring.style.opacity = '0'; }
+    // 1) split the envelope — triangular flap slides left, the rest slides right
+    setTimeout(() => {
+      if (left) left.style.transform = 'translateX(-118%)';
+      if (right) right.style.transform = 'translateX(118%)';
+    }, 140);
+    // 2) ink-write "Вы приглашены"
+    setTimeout(() => {
+      if (phrase) phrase.style.opacity = '1';
+      if (ink) ink.classList.add('ink-write');
+    }, 1000);
+    // 3) fade phrase out, then dissolve the cover to reveal the site
+    setTimeout(() => { if (phrase) phrase.style.opacity = '0'; }, 4050);
+    setTimeout(() => { ov.style.opacity = '0'; }, 4450);
+    setTimeout(() => { ov.style.display = 'none'; }, 5450);
   }
   componentWillUnmount() {
     clearInterval(this._t);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onScroll);
+    if (this._applyScale) window.removeEventListener('resize', this._applyScale);
   }
   updateHeart() {
     const path = document.getElementById('tl-path');
     const heart = document.getElementById('tl-heart');
     const sec = document.getElementById('tl-sec');
-    if (!path || !heart || !sec) return;
-    const rect = sec.getBoundingClientRect();
+    const dock = document.getElementById('cal-11');
+    if (!path || !heart || !sec || !dock) return;
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    const total = rect.height + vh;
-    let p = (vh - rect.top) / total;
-    p = isFinite(p) ? Math.max(0, Math.min(1, p)) : 0;
-    const len = path.getTotalLength();
-    if (!isFinite(len) || len === 0) return;
-    const pt = path.getPointAtLength(p * len);
     const svg = path.ownerSVGElement;
     const sr = svg.getBoundingClientRect();
     const secRect = sec.getBoundingClientRect();
     const sx = sr.width / 480, sy = sr.height / 660;
-    const hw = heart.offsetWidth || 30, hh = heart.offsetHeight || 28;
-    // path point in client coords (honours any SVG translate/offset), then relative to the section
-    const clientX = sr.left + pt.x * sx;
-    const clientY = sr.top + pt.y * sy;
-    heart.style.left = (clientX - secRect.left - hw / 2) + 'px';
-    heart.style.top = (clientY - secRect.top - hh / 2) + 'px';
+    const hw = heart.offsetWidth || 46, hh = heart.offsetHeight || 43;
+    const len = path.getTotalLength();
+    if (!isFinite(len) || len === 0) return;
+    // path point -> section-local coords
+    const ptSec = (d) => { const p = path.getPointAtLength(d); return { x: (sr.left + p.x * sx) - secRect.left, y: (sr.top + p.y * sy) - secRect.top }; };
+    // dock point = centre of the calendar "11" cell, in section-local coords
+    const dr = dock.getBoundingClientRect();
+    const dockX = (dr.left + dr.width / 2) - secRect.left;
+    const dockY = (dr.top + dr.height / 2) - secRect.top;
+    const start = ptSec(0);
+    // scroll progress: heart waits on the calendar, then rides the line down
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    const dockPageY = dr.top + scrollY + dr.height / 2;
+    const endPt = path.getPointAtLength(len);
+    const endPageY = (sr.top + endPt.y * sy) + scrollY;
+    const scroll0 = dockPageY - vh * 0.46;   // leave the calendar once it passes mid-screen
+    const scroll1 = endPageY - vh * 0.58;     // arrive at the end as it reaches mid-screen
+    let q = (scrollY - scroll0) / Math.max(1, scroll1 - scroll0);
+    q = Math.max(0, Math.min(1, q));
+    // combined route: dock -> line start -> along the line
+    const lead = Math.hypot(start.x - dockX, start.y - dockY);
+    const dist = q * (lead + len);
+    let cx, cy;
+    if (dist <= lead) {
+      const t = lead ? dist / lead : 1;
+      cx = dockX + (start.x - dockX) * t;
+      cy = dockY + (start.y - dockY) * t;
+    } else {
+      const pp = ptSec(dist - lead);
+      cx = pp.x; cy = pp.y;
+    }
+    heart.style.left = (cx - hw / 2) + 'px';
+    heart.style.top = (cy - hh / 2) + 'px';
   }
 
   renderVals() {
