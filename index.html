@@ -27,7 +27,7 @@
 <div style="max-width:480px; margin:0 auto; background:#f4ede1; color:#7a120f; overflow:hidden; box-shadow:0 0 60px rgba(60,20,10,.25);">
 
   <!-- ===================== ENVELOPE INTRO ===================== -->
-  <div id="env-overlay" onClick="{{ openEnvelope }}" role="button" aria-label="Открыть приглашение" style="position:fixed; top:0; bottom:0; left:50%; transform:translateX(-50%); width:min(480px,100vw); z-index:99999; overflow:hidden; cursor:pointer; background:#fdfdfb; display:flex; align-items:center; justify-content:center; transition:opacity .9s ease;">
+  <div id="env-overlay" onClick="{{ openEnvelope }}" role="button" aria-label="Открыть приглашение" style="position:fixed; top:0; bottom:0; left:50%; transform:translateX(-50%); width:min(480px,100vw); z-index:99999; overflow:hidden; cursor:pointer; background:#f4ede1; display:flex; align-items:center; justify-content:center; transition:opacity .9s ease;">
     <div id="env-card" style="position:relative; width:100%;">
       <div id="env-left" style="position:absolute; inset:0; clip-path:polygon(0% 0%, 9% 0%, 66% 47%, 9% 100%, 0% 100%); transition:transform 1.15s cubic-bezier(.7,0,.18,1); will-change:transform;">
         <img src="assets/envelope-cover.png" alt="" style="display:block; width:100%; height:auto;">
@@ -104,7 +104,7 @@
     <div style="position:absolute; left:16px; top:120px; width:185px;">
       
       <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; line-height:1;">13:00</div><div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:14px; letter-spacing:2px; margin-top:2px;">ЗАГС</div>
-      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; line-height:1.5; margin-top:10px;">Официальная регистрация — самый трепетный момент этого дня</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:13px; line-height:1.5; margin-top:10px;">Официальная регистрация в&nbsp;Грибоедовском ЗАГСе</div>
     </div>
     <div style="position:absolute; right:16px; top:248px; width:178px; text-align:left;">
       <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:30px; line-height:1;">14:00</div>
@@ -202,7 +202,7 @@
       <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:20px; margin-top:32px; padding-bottom:14px; border-bottom:1px solid rgba(244,237,225,.3);">Предпочтения по напиткам</div>
       <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:12px;">Можно выбрать несколько вариантов</div>
       <div style="display:flex; flex-direction:column; gap:0; margin-top:6px; max-width:80%;">
-        <sc-for list="{{ drinks }}" as="d" hint-placeholder-count="4">
+        <sc-for list="{{ drinks }}" as="d" hint-placeholder-count="5">
           <label onClick="{{ d.toggle }}" style="display:flex; align-items:center; gap:12px; padding:11px 0; cursor:pointer; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; white-space:nowrap;">
             <span style="width:17px; height:17px; border:1.5px solid #f4ede1; display:flex; align-items:center; justify-content:center; flex:0 0 auto;"><sc-if value="{{ d.checked }}" hint-placeholder-val="{{ false }}"><span style="width:9px; height:9px; background:#f4ede1;"></span></sc-if></span>
             {{ d.label }}
@@ -211,7 +211,7 @@
       </div>
 
       <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:17px; margin-top:30px;">Есть ли у&nbsp;вас аллергия на&nbsp;какие-либо продукты?</div>
-      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">При аллергии оставьте поле пустым</div>
+      <div style="font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-style:italic; font-size:13px; opacity:.8; margin-top:6px;">При отсутствии аллергии оставьте поле пустым</div>
       <input class="field" value="{{ allergy }}" onInput="{{ onAllergy }}" placeholder="Опишите, пожалуйста" style="width:100%; margin-top:12px; background:transparent; border:none; border-bottom:1px solid rgba(244,237,225,.45); color:#f4ede1; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-size:16px; padding:10px 2px;">
 
       <button onClick="{{ submit }}" style="display:block; width:100%; margin-top:36px; background:#f4ede1; color:#5e1313; border:none; padding:16px; font-family:'Sitka','Sitka Text',Cambria,Georgia,serif; font-weight:700; font-size:16px; letter-spacing:1px; cursor:pointer;" style-hover="background:#fff;">Отправить</button>
@@ -243,7 +243,7 @@
   </section><section data-screen-label="Farewell" style="position:relative; padding:10px 0 0; text-align:center;">
     <div style="font-family: Great Vibes; font-size: 60px; line-height: .95">Ждём вас,</div>
     <div style="font-family: Great Vibes; font-style: italic; font-weight: 400; font-size: 60px; margin-top: -2px">дорогие!</div>
-    <img src="assets/couple-heart.png" alt="" style="display: block; max-width: 380px; margin: 14px auto 0; width: 380px; height: 288px; margin-top: 0px"><img src="assets/table.png" alt="" style="display: block; width: 100%; max-width: 100%; height: auto; margin: 20px auto 0; margin-top: 0px">
+    <img src="assets/couple-heart.png" alt="" style="display: block; max-width: 380px; margin: 14px auto 0; width: 380px; height: 288px; margin-top: 0px; margin-bottom: 60px"><img src="assets/table.png" alt="" style="display: block; width: 100%; max-width: 100%; height: auto; margin: 0 auto; margin-top: -150px; position: relative; z-index: 1;">
     
   </section>
 
@@ -281,6 +281,9 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  // ▼▼▼ Вставьте сюда ваш endpoint формы Formspree (https://formspree.io → New form) ▼▼▼
+  FORMSPREE_ENDPOINT = 'https://formspree.io/f/xeewyeyj';
+  // ▲▲▲ замените YOUR_FORM_ID на код вашей формы ▲▲▲
   state = {
     now: Date.now(),
     attendance: null,
@@ -288,7 +291,8 @@ class Component extends DCLogic {
     allergy: '',
     drinks: [
       { label: 'Игристое', checked: false },
-      { label: 'Вино', checked: false },
+      { label: 'Вино белое', checked: false },
+      { label: 'Вино красное', checked: false },
       { label: 'Крепкое', checked: false },
       { label: 'Не пью', checked: false },
     ],
@@ -427,7 +431,27 @@ class Component extends DCLogic {
           return { drinks: arr };
         }),
       })),
-      submit: () => this.setState({ submitted: true }),
+      submit: () => {
+        const st = this.state;
+        if (this._sending) return;
+        // простая проверка
+        if (!st.attendance) { alert('Пожалуйста, выберите: придёте или нет.'); return; }
+        if (st.attendance === 'yes' && !st.name.trim()) { alert('Пожалуйста, укажите имя.'); return; }
+        const drinks = st.drinks.filter((d) => d.checked).map((d) => d.label).join(', ');
+        const payload = {
+          'Присутствие': st.attendance === 'yes' ? 'Приду / Придём' : 'Не получится',
+          'Имя': st.name.trim() || '—',
+          'Напитки': drinks || '—',
+          'Аллергия': st.allergy.trim() || '—',
+        };
+        this._sending = true;
+        const done = () => { this._sending = false; this.setState({ submitted: true }); };
+        fetch(this.FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then((r) => done()).catch(() => done());
+      },
       openEnvelope: () => this.openEnvelope(),
     };
   }
