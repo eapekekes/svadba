@@ -1,0 +1,12 @@
+{
+  "name": "svadba",
+  "version": "1.0.0",
+  "description": "Свадебное приглашение — Егор и Анастасия, 11.10.2026",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
